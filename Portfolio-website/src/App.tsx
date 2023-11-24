@@ -5,6 +5,7 @@ import './App.css'
 import Profile from "./components/profile.component";
 import About from "./components/about.component";
 import Languages from './components/languages.component';
+import Projects from './components/projects.component';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
       </div>
 
       <Languages />
+      <Projects />
     </>
     
     

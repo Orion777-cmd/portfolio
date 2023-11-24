@@ -6,6 +6,7 @@ import { FaJava } from "react-icons/fa";
 import { FaGolang } from "react-icons/fa6";
 import { FaRust } from "react-icons/fa";
 import { SiNeovim } from "react-icons/si";
+import { SiDart } from "react-icons/si";
 
 const Languages = () => {
     return (
@@ -19,6 +20,7 @@ const Languages = () => {
                     <a href="" className="hover:scale-110"><FaJava size={30}/></a>
                     <a href="" className="hover:scale-110"><FaGolang size={30}/></a>
                     <a href="" className="hover:scale-110"><FaRust size={30}/></a>
+                    <a href="" className="hover:scale-110"><SiDart size={30}/></a>
                     <a href="" className="hover:scale-110"><SiNeovim size={30}/></a>
 
                 </div>
