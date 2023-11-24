@@ -6,15 +6,28 @@ import ProjectCard from "./projectcard.component";
 import CustomPrevArrowComponent from "./customprevarrow.component";
 import CustomNextArrowComponent from "./customnextarrow.component";
 
+
 const Projects = () => {
+
+    const sliderRef = React.useRef<Slider>(null);
+    const handleClick = (direction:string) => {
+        if(direction === "next"){
+            sliderRef.current!.slickNext();
+        }else if (direction === "prev"){
+            sliderRef.current!.slickPrev();
+        }
+    }
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 3,
+        
         slidesToScroll:1,
-        prevArrow: <CustomPrevArrowComponent />, // Replace with your custom prev arrow component
-        nextArrow: <CustomNextArrowComponent />,
+        // swipeToSlide: true,
+       
+        prevArrow: <CustomPrevArrowComponent className="" style={{}} onClick={() => handleClick("prev")}/>,
+        nextArrow: <CustomNextArrowComponent className="" style={{}} onClick={() => handleClick("next")}/>,
         // initialSlide: 0,
         responsive: [
             {
@@ -43,7 +56,7 @@ const Projects = () => {
     return (
         <div className="flex flex-col">
             <h1 className="font-bold text-2xl">Projects</h1>
-            <Slider {...settings} >
+            <Slider ref={sliderRef} {...settings} >
                 <ProjectCard />
                 <ProjectCard />
                 <ProjectCard />
