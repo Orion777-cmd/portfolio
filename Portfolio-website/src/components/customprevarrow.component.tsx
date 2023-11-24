@@ -1,16 +1,16 @@
 import React from "react";
 import { FaArrowLeft } from 'react-icons/fa'
 type CustomPrevArrowProps = {
-    className: string;
+    classname: string;
     
     onClick: () => void;
 };
 
 const CustomPrevArrow = (props: CustomPrevArrowProps) => {
-    const { className, onClick } = props;
+    const { classname, onClick } = props;
     return (
         <div
-            className={className}
+            className={classname}
            
             onClick={onClick}
         >
