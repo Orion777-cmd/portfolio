@@ -2,7 +2,7 @@ import React from "react";
 
 const ProjectCard = () => {
     return (
-        <div className="max-w-md w-200 h-200 mx-auto bg-white rounded-xl shadow-lg">
+        <div className="max-w-md w-200 h-200 mx-auto gap-2 bg-white rounded-xl shadow-lg border-black border-2">
             
             <div className="flex items-center justify-around h-50 p-4">
                 

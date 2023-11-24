@@ -26,8 +26,8 @@ const Projects = () => {
         slidesToScroll:1,
         // swipeToSlide: true,
        
-        prevArrow: <CustomPrevArrowComponent className="" style={{}} onClick={() => handleClick("prev")}/>,
-        nextArrow: <CustomNextArrowComponent className="" style={{}} onClick={() => handleClick("next")}/>,
+        prevArrow: <CustomPrevArrowComponent className="h-12 w-12 text-red-500 bg-black z-10" onClick={() => handleClick("prev")}/>,
+        nextArrow: <CustomNextArrowComponent className="h-12 w-12 text-blue-500 bg-black z-10" onClick={() => handleClick("next")}/>,
         // initialSlide: 0,
         responsive: [
             {
@@ -54,7 +54,7 @@ const Projects = () => {
 
     }
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col m-8">
             <h1 className="font-bold text-2xl">Projects</h1>
             <Slider ref={sliderRef} {...settings} >
                 <ProjectCard />

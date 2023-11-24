@@ -1,19 +1,21 @@
 import React from "react";
-
+import { FaArrowLeft } from 'react-icons/fa'
 type CustomPrevArrowProps = {
     className: string;
-    style: React.CSSProperties;
+    
     onClick: () => void;
 };
 
 const CustomPrevArrow = (props: CustomPrevArrowProps) => {
-    const { className, style, onClick } = props;
+    const { className, onClick } = props;
     return (
         <div
             className={className}
-            style={{ ...style, display: "block", background: "red" }}
+           
             onClick={onClick}
-        />
+        >
+            <FaArrowLeft size={30}/>
+        </div>
     );
 };
 

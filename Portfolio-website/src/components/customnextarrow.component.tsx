@@ -1,17 +1,20 @@
+import { FaArrowRight } from 'react-icons/fa'
 type CustomNextArrowProps = {
     className: string  | undefined;
-    style: React.CSSProperties | null;
+   
     onClick: () => void;
 };
 
 const CustomNextArrow = (props: CustomNextArrowProps) => {
-    const { className, style, onClick } = props;
+    const { className, onClick } = props;
     return (
         <div
             className={className}
-            style={{ ...style, display: "block", background: "green" }}
+          
             onClick={onClick}
-        />
+        >
+            <FaArrowRight/>
+        </div>
     );
 };
 
