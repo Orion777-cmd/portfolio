@@ -2,13 +2,13 @@ import React from "react";
 
 const ProjectCard = () => {
     return (
-        <div className="max-w-md w-200 h-200 mx-auto gap-2 bg-white rounded-xl shadow-lg border-black border-2">
+        <div className="font-mono max-w-md w-200 h-200 mx-auto gap-2 bg-white rounded-xl shadow-2xl border-black border-2">
             
             <div className="flex items-center justify-around h-50 p-4">
                 
                 <img className="w-12 h-12 rounded-full mr-4" src="../assets/the_guitar.jpg" alt="Project Image" />
                
-                <h3 className="text-lg font-semibold">Project Name</h3>
+                <h3 className="text-lg font-mono">Project Name</h3>
             </div>
 
          

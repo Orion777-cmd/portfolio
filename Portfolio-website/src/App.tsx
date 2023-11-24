@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <div className=" flex ">
+      <div className=" flex font-mono">
         <Profile />
 
         <About />

@@ -54,7 +54,7 @@ const Projects = () => {
 
     }
     return (
-        <div className="flex flex-col m-8">
+        <div className="flex flex-col m-8 font-mono">
             <h1 className="font-bold text-2xl mb-6">Projects</h1>
             <Slider ref={sliderRef} {...settings} >
                 <ProjectCard />

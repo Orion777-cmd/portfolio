@@ -10,7 +10,7 @@ import { SiDart } from "react-icons/si";
 
 const Languages = () => {
     return (
-        <div className="w-full">
+        <div className="w-full font-mono">
             <div className="m-10 h-40 flex flex-col justify-around items-start">
                 <h1 className="font-bold text-2xl">Programming Languages I work with</h1>
                 <div className="flex justify-start gap-5 items-center">
