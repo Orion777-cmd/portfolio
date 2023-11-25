@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <div className=" flex font-mono">
+      <div className=" flex lg:flex-row flex-col items-center justify-center  font-mono">
         <Profile />
 
         <About />
