@@ -20,7 +20,7 @@ const Languages = () => {
     return (
         <div className="max-w-full font-mono">
             <div className="m-10 h-40 flex flex-col justify-around items-start">
-                <h1 className="font-bold text-2xl">Tech Stacks I am fammiliar with.</h1>
+                <h1 className="font-bold text-2xl">Tech Stacks I am familiar with.</h1>
                 <div className="flex flex-wrap justify-start gap-5 items-center">
                     <a href="" className="hover:scale-110"><SiPython size={30}/></a>                    
                     <a href="" className="hover:scale-110"><SiJavascript size={30}/></a>

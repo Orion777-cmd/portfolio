@@ -63,7 +63,7 @@ const Projects = () => {
                 <ProjectCard name="Ngus_Clothing" image={<FaCrown size={30}/>} technologies={["react", "firebase", "scss","js" ]} description="Ngus_clothing is an e-commerce website for hats and clothing. The platform caters to both men and women, offering a seamless shopping experience." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/CRWN_Clothing"/>
                 <ProjectCard name="github_tailwind" image={<FaGithubAlt size={30}/>} technologies={["react", "tailwind" ]} description="A clone of a single page on github done with tailwindcss and react." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/github_tailwind"/>
                 <ProjectCard name="Nasa_project" image={<SiNasa size={30}/>} technologies={["react", "nodejs", "expressjs" ]} description="a web app built on a dataset provided by nasa that identifies list of habitable plantets and schedule expeditions with full CRUD operations" repoLink="https://github.com/Orion777-cmd/KOI/tree/main/NASA-project"/>
-                <ProjectCard name="x_tour" image={<PiAirplaneLandingFill size={30}/>} technologies={["flutter", "nodejs", "nestjs", "dart", "typescript" ]} description="a social mobile apllication that is like instagram." repoLink="https://github.com/mikii17/xTour"/>
+                <ProjectCard name="x_tour" image={<PiAirplaneLandingFill size={30}/>} technologies={["flutter", "nodejs", "nestjs", "dart", "typescript","mongodb" ]} description="a social mobile apllication that is like instagram." repoLink="https://github.com/mikii17/xTour"/>
               
             </Slider>
         </div>
