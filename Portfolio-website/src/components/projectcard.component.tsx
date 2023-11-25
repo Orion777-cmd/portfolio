@@ -16,13 +16,13 @@ const ProjectCard = ({name, image, technologies, description, repoLink}: {name: 
          
             <div className="p-4 border-t-2 border-black border-b-2">
                
-                <p className="text-gray-600">Technologies: {technologies.join(', ')}</p>
+                <p className="text-gray-600">{technologies.join(', ')}</p>
             </div>
 
            
             <div className="p-4 border-b-2 border-black">
                 
-                <p className="text-gray-800">Project Description: {description}</p>
+                <p className="text-gray-800">{description}</p>
             </div>
 
            
