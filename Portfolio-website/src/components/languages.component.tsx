@@ -1,4 +1,4 @@
-import React from "react";
+
 import { SiTypescript } from "react-icons/si";
 import { SiJavascript } from "react-icons/si";
 import { SiPython } from "react-icons/si";

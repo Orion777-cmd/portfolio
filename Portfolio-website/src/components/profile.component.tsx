@@ -1,4 +1,4 @@
-import React from "react";
+
 import Social from "./socials.component";
 import profile from "../assets/the_guitar.jpg";
 

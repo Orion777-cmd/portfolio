@@ -1,4 +1,4 @@
-import React from "react";
+import {useRef} from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,7 +9,7 @@ import CustomNextArrowComponent from "./customnextarrow.component";
 
 const Projects = () => {
 
-    const sliderRef = React.useRef<Slider>(null);
+    const sliderRef = useRef<Slider>(null);
     const handleClick = (direction:string) => {
         if(direction === "next"){
             sliderRef.current!.slickNext();
