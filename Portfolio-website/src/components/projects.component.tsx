@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import ProjectCard from "./projectcard.component";
 import CustomPrevArrowComponent from "./customprevarrow.component";
 import CustomNextArrowComponent from "./customnextarrow.component";
+import { FaCrown } from "react-icons/fa";
 
 
 const Projects = () => {
@@ -57,13 +58,11 @@ const Projects = () => {
         <div className="flex flex-col m-8 font-mono">
             <h1 className="font-bold text-2xl mb-6">Projects</h1>
             <Slider ref={sliderRef} {...settings} >
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
-                <ProjectCard />
+                <ProjectCard name="Ngus_Clothing" image={<FaCrown size={30}/>} technologies={["react", "firebase", "scss","js" ]} description="Ngus_clothing is an e-commerce website for hats and clothing. The platform caters to both men and women, offering a seamless shopping experience." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/CRWN_Clothing"/>
+                <ProjectCard name="Ngus_Clothing" image={<FaCrown size={30}/>} technologies={["react", "firebase", "scss","js" ]} description="Ngus_clothing is an e-commerce website for hats and clothing. The platform caters to both men and women, offering a seamless shopping experience." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/CRWN_Clothing"/>
+                <ProjectCard name="Ngus_Clothing" image={<FaCrown size={30}/>} technologies={["react", "firebase", "scss","js" ]} description="Ngus_clothing is an e-commerce website for hats and clothing. The platform caters to both men and women, offering a seamless shopping experience." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/CRWN_Clothing"/>
+                <ProjectCard name="Ngus_Clothing" image={<FaCrown size={30}/>} technologies={["react", "firebase", "scss","js" ]} description="Ngus_clothing is an e-commerce website for hats and clothing. The platform caters to both men and women, offering a seamless shopping experience." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/CRWN_Clothing"/>
+              
             </Slider>
         </div>
     )

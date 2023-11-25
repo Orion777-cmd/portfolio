@@ -1,32 +1,34 @@
 
 
-const ProjectCard = () => {
+const ProjectCard = ({name, image, technologies, description, repoLink}: {name: string, image: React.ReactElement, technologies: string[], description: string, repoLink:string}) => {
     return (
         <div className="font-mono  max-w-md w-200 h-200 mx-auto gap-2 bg-white rounded-xl shadow-md border-black border-2">
             
             <div className="flex items-center justify-around h-50 p-4">
                 
-                <img className="w-12 h-12 rounded-full mr-4" src="../assets/the_guitar.jpg" alt="Project Image" />
+                <div className="w-20 h-20 bg-orange-400 rounded-full flex justify-center items-center">
+                    {image}
+                </div>
                
-                <h3 className="text-lg font-mono">Project Name</h3>
+                <h3 className="text-lg font-mono">{name}</h3>
             </div>
 
          
             <div className="p-4 border-t-2 border-black border-b-2">
                
-                <p className="text-gray-600">Technologies: HTML, CSS, JavaScript</p>
+                <p className="text-gray-600">Technologies: {technologies.join(', ')}</p>
             </div>
 
            
             <div className="p-4 border-b-2 border-black">
                 
-                <p className="text-gray-800">Project Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                <p className="text-gray-800">Project Description: {description}</p>
             </div>
 
            
             <div className="flex items-center justify-end p-4">
                 
-                <a href="#" className="text-blue-500" target="_blank">GitHub Repository</a>
+                <a href={repoLink} className="text-blue-500" target="_blank">GitHub Repository</a>
             </div>
         </div>
     )
