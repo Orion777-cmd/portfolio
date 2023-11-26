@@ -2,6 +2,10 @@
 
 This is a personal portfolio website built using the dynamic trio of React, Tailwind CSS, and TypeScript. It showcases my skills, projects, and provides information about me.
 
+## Deployment
+
+The live demo of this portfolio can be found at [https://ori0n.me](https://ori0n.me).
+
 ## Credits
 
 - The design and structure of this portfolio were inspired by the work of [frectonz](https://github.com/frectonz). 
