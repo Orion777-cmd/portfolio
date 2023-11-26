@@ -6,7 +6,7 @@ const ProjectCard = ({name, image, technologies, description, repoLink}: {name: 
             
             <div className="flex items-center justify-around h-50 p-4">
                 
-                <div className="w-20 h-20 bg-orange-500 rounded-full flex justify-center items-center">
+                <div className="w-20 h-20 bg-blue-300 rounded-full flex justify-center items-center">
                     {image}
                 </div>
                
