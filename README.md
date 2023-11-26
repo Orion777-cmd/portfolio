@@ -34,24 +34,6 @@ Copy code
 
 This is a personal portfolio website built using the dynamic trio of React, Tailwind CSS, and TypeScript. It showcases my skills, projects, and provides information about me.
 
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Features
-
-- Responsive design for a seamless experience across devices.
-- Clean and modern UI to highlight skills and projects.
-- TypeScript for static typing and improved code quality.
-- Tailwind CSS for efficient and maintainable styling.
-- React for building a dynamic and interactive user interface.
-
 ## Installation
 
 1. **Clone the repository:**
