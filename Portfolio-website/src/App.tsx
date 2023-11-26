@@ -1,7 +1,7 @@
 
 import './App.css'
 import Header from './components/header.component'
-import {useState, useEffect} from "react";
+
 import { useDarkMode } from './context/darkmode.context';
 
 
@@ -28,7 +28,7 @@ function App() {
     }
   };
 
-  const {darkMode, setDarkMode} = useDarkMode();
+  const {darkMode} = useDarkMode();
 
   return (
     
