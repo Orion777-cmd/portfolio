@@ -9,8 +9,10 @@ import { FaCrown } from "react-icons/fa";
 import { FaGithubAlt } from "react-icons/fa6";
 import { SiNasa } from "react-icons/si";
 import { PiAirplaneLandingFill } from "react-icons/pi";
+import { useDarkMode } from "../context/darkmode.context";
 
 const Projects = () => {
+    const {darkMode} = useDarkMode();
 
     const sliderRef = useRef<Slider>(null);
     const handleClick = (direction:string) => {
@@ -57,7 +59,7 @@ const Projects = () => {
 
     }
     return (
-        <div className="flex flex-col p-8 font-mono">
+        <div className={`flex flex-col p-8 font-mono ${darkMode ? 'dark:bg-gray-900 dark:text-white' : ''}`}>
             <h1 className="font-bold text-2xl mb-6">Projects</h1>
             <Slider ref={sliderRef} {...settings} >
                 <ProjectCard name="Ngus_Clothing" image={<FaCrown size={30} />} technologies={["react", "firebase", "scss","js" ]} description="Ngus_clothing is an e-commerce website for hats and clothing. The platform caters to both men and women, offering a seamless shopping experience." repoLink="https://github.com/Orion777-cmd/react_projects/tree/main/CRWN_Clothing"/>

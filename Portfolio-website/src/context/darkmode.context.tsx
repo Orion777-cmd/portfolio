@@ -14,7 +14,7 @@ export const useDarkMode = () => {
   return useContext(DarkModeContext);
 };
 
-export const DarkModeProvider: React.FC = ({ children }) => {
+export const DarkModeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
 
   return (

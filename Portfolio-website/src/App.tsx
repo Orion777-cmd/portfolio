@@ -1,7 +1,7 @@
 
 import './App.css'
 import {useState, useEffect} from "react";
-
+import {DarkModeProvider, useDarkMode} from "./context/darkmode.context";
 
 import Profile from "./components/profile.component";
 import About from "./components/about.component";
@@ -27,7 +27,7 @@ function App() {
     }
   };
 
-  const [darkMode, setDarkMode] = useState(false);
+  const {darkMode, setDarkMode} = useDarkMode();
 
   return (
     
