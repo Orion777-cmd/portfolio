@@ -12,7 +12,7 @@ function App() {
   const pageVariants = {
     initial:{
       opacity:0,
-      y: 100,
+      y: 300,
     },
     animate:{
       opacity: 1,
