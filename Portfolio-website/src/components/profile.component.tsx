@@ -18,7 +18,7 @@ const Profile = () => {
   const { darkMode } = useDarkMode();
 
   return (
-    <div className={`container min-w-md w-1/2 m-5 p-2 ${darkMode ? 'border-white shadow-slate-500' : 'border-black'} shadow-lg flex flex-col`}>
+    <div className={`container min-w-md lg:w-1/2 m-5 p-2 ${darkMode ? 'border-white shadow-slate-500' : 'border-black'} shadow-lg flex flex-col`}>
       <div className="flex xl:flex-row flex-col gap-2 justify-around items-center">
         <img src={currentPhoto} alt="" className="w-[200px] h-[200px] rounded-full object-cover object-center" />
         <div className="details flex flex-col items-center justify-center ">

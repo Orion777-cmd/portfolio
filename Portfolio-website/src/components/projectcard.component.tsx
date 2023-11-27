@@ -4,7 +4,7 @@ import {useDarkMode} from '../context/darkmode.context';
 const ProjectCard = ({ name, image, technologies, description, repoLink }: { name: string, image: React.ReactElement, technologies: string[], description: string, repoLink: string }) => {
     const { darkMode } = useDarkMode();
     return (
-        <div className={`font-mono max-w-md w-200 h-200 mx-auto gap-2 bg-white rounded-xl shadow-md border-black border-2 ${darkMode ? 'dark:bg-gray-900 dark:text-white' : ''}`}>
+        <div className={`font-mono max-w-md w-200 h-200 mx-auto gap-2 bg-white rounded-xl shadow-md border-black border-2 ${darkMode ? 'dark:bg-gray-900 border-white dark:text-white' : ''}`}>
             <div className={`flex items-center justify-around h-50 p-4 ${darkMode ? 'dark:border-white' : 'border-black'}`}>
                 <div className="w-20 h-20 bg-blue-300 rounded-full flex justify-center items-center">
                     {image}
