@@ -4,8 +4,10 @@ const Hobbies = () => {
     return(
         <div className={`flex flex-wrap justify-center items-center m-2 p-2 h-30 ${darkMode ? 'border-t-2 border-white' : 'border-t-2 border-black'}`}>
             <p>
-                Exploring the harmonies of music, the cinematic world, and the written narratives in novels enriches my leisure. Meanwhile,
-                having fun with sketching and diving into the lively play of <span className="text-lg">&#127955;</span> table tennis adds an extra layer of enjoyment to my daily life.
+                Fueled by an unyielding curiosity about how technology shapes our lives, my journey has naturally led me to the dynamic realm of software development.
+                As a full-stack and mobile app developer, I thrive on continual learning and seizing opportunities to openly share insights.
+                If something I create resonates with you, let's connect and discuss it on my social platforms.
+                Your thoughts and feedback are always welcomed and valued.
             </p>
         </div>
     )

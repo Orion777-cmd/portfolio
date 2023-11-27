@@ -22,23 +22,6 @@ The live demo of this portfolio can be found at [https://ori0n.me](https://ori0n
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Orion777-cmd/portfolio.git
-   cd portfolio-website
-
-   
-Certainly! Here is the complete README file with all the content in one file:
-
-markdown
-Copy code
-# My Portfolio Website
-
-This is a personal portfolio website built using the dynamic trio of React, Tailwind CSS, and TypeScript. It showcases my skills, projects, and provides information about me.
-
-## Installation
-
-1. **Clone the repository:**
-
-   ```bash
    git clone https://github.com/your-username/portfolio.git
    cd portfolio
 Install dependencies:
