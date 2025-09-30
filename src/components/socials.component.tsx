@@ -4,48 +4,134 @@ import { SiCodeforces } from "react-icons/si";
 import { SiCodewars } from "react-icons/si";
 import { MdAlternateEmail } from "react-icons/md";
 import { SiUpwork } from "react-icons/si";
-
 import { useDarkMode } from "../context/darkmode.context";
+import { motion } from "framer-motion";
 
 const Socials = () => {
   const { darkMode } = useDarkMode();
-  const borderClass = darkMode ? "border-white" : "border-black";
+
+  const socialLinks = [
+    {
+      name: "LinkedIn",
+      icon: FaLinkedin,
+      url: "https://www.linkedin.com/in/abiy-biru-aa2ba3227/",
+      color: "text-blue-600",
+    },
+    {
+      name: "Upwork",
+      icon: SiUpwork,
+      url: "https://www.upwork.com/freelancers/~01f99d578087773c1f",
+      color: "text-green-600",
+    },
+    {
+      name: "GitHub",
+      icon: FaGithub,
+      url: "https://github.com/Orion777-cmd",
+      color: "text-gray-800",
+    },
+    {
+      name: "LeetCode",
+      icon: SiLeetcode,
+      url: "https://leetcode.com/orion777_cmd/",
+      color: "text-yellow-600",
+    },
+    {
+      name: "Codeforces",
+      icon: SiCodeforces,
+      url: "https://codeforces.com/profile/Abiy",
+      color: "text-red-600",
+    },
+    {
+      name: "Codewars",
+      icon: SiCodewars,
+      url: "https://www.codewars.com/users/orion777",
+      color: "text-red-700",
+    },
+    {
+      name: "Email",
+      icon: MdAlternateEmail,
+      url: "mailto:abiy.biru78@gmail.com",
+      color: "text-gray-600",
+    },
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10,
+      },
+    },
+  };
 
   return (
-    <div
-      className={`socials flex flex-wrap justify-center gap-5 items-center m-5 p-5 h-30 border-t-2 ${borderClass}`}
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className={`flex flex-wrap justify-center gap-6 items-center pt-6 border-t-2 ${
+        darkMode ? "border-gray-600" : "border-gray-300"
+      }`}
     >
-      <a
-        href="https://www.linkedin.com/in/abiy-biru-aa2ba3227/"
-        className="hover:scale-110"
-      >
-        <FaLinkedin size={30} />
-      </a>
-      <a
-        href="https://www.upwork.com/freelancers/~01f99d578087773c1f"
-        className="hover:scale-110"
-      >
-        <SiUpwork size={30} />
-      </a>
-      <a href="https://github.com/Orion777-cmd" className="hover:scale-110">
-        <FaGithub size={30} />
-      </a>
-      <a href="https://leetcode.com/orion777_cmd/" className="hover:scale-110">
-        <SiLeetcode size={30} />
-      </a>
-      <a href="https://codeforces.com/profile/Abiy" className="hover:scale-110">
-        <SiCodeforces size={30} />
-      </a>
-      <a
-        href="https://www.codewars.com/users/orion777"
-        className="hover:scale-110"
-      >
-        <SiCodewars size={30} />
-      </a>
-      <a href="mailto:abiy.biru78@gmail.com" className="hover:scale-110">
-        <MdAlternateEmail size={30} />
-      </a>
-    </div>
+      {socialLinks.map((social) => (
+        <motion.a
+          key={social.name}
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          variants={itemVariants}
+          whileHover={{
+            scale: 1.2,
+            y: -5,
+            transition: { type: "spring", stiffness: 400, damping: 10 },
+          }}
+          whileTap={{ scale: 0.9 }}
+          className={`group relative p-3 rounded-xl transition-all duration-300 ${
+            darkMode ? "hover:bg-gray-700/50" : "hover:bg-gray-100/50"
+          }`}
+          title={social.name}
+        >
+          <social.icon
+            size={32}
+            className={`transition-colors duration-300 ${
+              darkMode
+                ? "text-white group-hover:text-gray-300"
+                : "text-gray-700 group-hover:text-gray-900"
+            }`}
+          />
+
+          {/* Hover Tooltip */}
+          <div
+            className={`absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+              darkMode ? "bg-gray-800 text-white" : "bg-gray-900 text-white"
+            }`}
+          >
+            {social.name}
+          </div>
+
+          {/* Subtle Glow Effect */}
+          <div
+            className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 ${
+              darkMode ? "bg-white" : "bg-gray-400"
+            }`}
+          />
+        </motion.a>
+      ))}
+    </motion.div>
   );
 };
 

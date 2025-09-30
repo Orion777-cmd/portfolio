@@ -26,57 +26,99 @@ const AdminLogin: React.FC = () => {
   return (
     <div
       className={`min-h-screen flex items-center justify-center font-sans relative overflow-hidden ${
-        darkMode
-          ? "bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
-          : "bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50"
+        darkMode ? "bg-black" : "bg-white"
       }`}
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Futuristic Grid Background */}
+      <div className="absolute inset-0 opacity-20">
         <div
-          className={`absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 animate-pulse ${
-            darkMode ? "bg-blue-400" : "bg-blue-300"
+          className={`absolute inset-0 ${
+            darkMode
+              ? "bg-gradient-to-br from-gray-900 via-black to-gray-800"
+              : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
           }`}
         ></div>
+        <svg
+          className="absolute inset-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern
+              id="grid"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 40 0 L 0 0 0 40"
+                fill="none"
+                stroke={darkMode ? "#374151" : "#e5e7eb"}
+                strokeWidth="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+
+      {/* Animated Lines */}
+      <div className="absolute inset-0 overflow-hidden">
         <div
-          className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-20 animate-pulse ${
-            darkMode ? "bg-purple-400" : "bg-purple-300"
-          }`}
+          className={`absolute top-1/4 left-0 w-full h-px ${
+            darkMode
+              ? "bg-gradient-to-r from-transparent via-white to-transparent"
+              : "bg-gradient-to-r from-transparent via-black to-transparent"
+          } opacity-30 animate-pulse`}
+        ></div>
+        <div
+          className={`absolute top-3/4 left-0 w-full h-px ${
+            darkMode
+              ? "bg-gradient-to-r from-transparent via-white to-transparent"
+              : "bg-gradient-to-r from-transparent via-black to-transparent"
+          } opacity-30 animate-pulse`}
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 animate-pulse ${
-            darkMode ? "bg-cyan-400" : "bg-cyan-300"
-          }`}
+          className={`absolute left-1/4 top-0 w-px h-full ${
+            darkMode
+              ? "bg-gradient-to-b from-transparent via-white to-transparent"
+              : "bg-gradient-to-b from-transparent via-black to-transparent"
+          } opacity-30 animate-pulse`}
           style={{ animationDelay: "2s" }}
         ></div>
       </div>
 
       {/* Main Login Card */}
       <div
-        className={`relative z-10 w-full max-w-md mx-4 backdrop-blur-xl rounded-2xl shadow-2xl border ${
+        className={`relative z-10 w-full max-w-md mx-4 backdrop-blur-2xl rounded-3xl border-2 transition-all duration-500 ${
           darkMode
-            ? "bg-gray-900/80 border-gray-700/50"
-            : "bg-white/80 border-gray-200/50"
+            ? "bg-black/80 border-white/20 shadow-2xl shadow-white/10"
+            : "bg-white/80 border-black/20 shadow-2xl shadow-black/10"
         }`}
       >
         {/* Glow Effect */}
         <div
-          className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-xl`}
+          className={`absolute inset-0 rounded-3xl ${
+            darkMode
+              ? "bg-gradient-to-r from-white/5 via-gray-500/5 to-white/5"
+              : "bg-gradient-to-r from-black/5 via-gray-500/5 to-black/5"
+          } blur-xl`}
         ></div>
 
-        <div className="relative p-8">
+        <div className="relative p-10">
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-10">
             <div
-              className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+              className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 border-2 ${
                 darkMode
-                  ? "bg-gradient-to-r from-blue-500 to-purple-600"
-                  : "bg-gradient-to-r from-blue-600 to-purple-700"
+                  ? "bg-black border-white/30"
+                  : "bg-white border-black/30"
               }`}
             >
               <svg
-                className="w-8 h-8 text-white"
+                className={`w-10 h-10 ${
+                  darkMode ? "text-white" : "text-black"
+                }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -84,58 +126,44 @@ const AdminLogin: React.FC = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                 />
               </svg>
             </div>
             <h2
-              className={`text-3xl font-bold mb-2 ${
-                darkMode ? "text-white" : "text-gray-900"
+              className={`text-4xl font-bold mb-3 tracking-wider ${
+                darkMode ? "text-white" : "text-black"
               }`}
             >
-              Admin Access
+              ADMIN
             </h2>
+            <div
+              className={`w-16 h-px mx-auto mb-4 ${
+                darkMode ? "bg-white/50" : "bg-black/50"
+              }`}
+            ></div>
             <p
-              className={`text-sm ${
+              className={`text-sm tracking-widest uppercase ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
-              Secure portal for portfolio management
+              Secure Access Portal
             </p>
           </div>
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Email Field */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label
-                className={`block text-sm font-medium ${
+                className={`block text-sm font-medium tracking-wider uppercase ${
                   darkMode ? "text-gray-300" : "text-gray-700"
                 }`}
               >
                 Email Address
               </label>
               <div className="relative">
-                <div
-                  className={`absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ${
-                    darkMode ? "text-gray-400" : "text-gray-500"
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                    />
-                  </svg>
-                </div>
                 <input
                   type="email"
                   required
@@ -143,47 +171,45 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   onFocus={() => setIsFocused("email")}
                   onBlur={() => setIsFocused("")}
-                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 transition-all duration-300 focus:outline-none ${
+                  className={`w-full px-4 py-4 rounded-2xl border-2 transition-all duration-300 focus:outline-none font-mono ${
                     isFocused === "email"
-                      ? "border-blue-500 bg-blue-50/50"
+                      ? darkMode
+                        ? "border-white bg-white/5 text-white"
+                        : "border-black bg-black/5 text-black"
                       : darkMode
-                      ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400"
-                      : "border-gray-300 bg-white/50 text-gray-900 placeholder-gray-500"
+                      ? "border-gray-600 bg-black/50 text-white placeholder-gray-500"
+                      : "border-gray-300 bg-white/50 text-black placeholder-gray-500"
                   }`}
                   placeholder="admin@example.com"
                 />
+                <div
+                  className={`absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      isFocused === "email"
+                        ? darkMode
+                          ? "bg-white"
+                          : "bg-black"
+                        : "bg-gray-400"
+                    } transition-colors duration-300`}
+                  ></div>
+                </div>
               </div>
             </div>
 
             {/* Password Field */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label
-                className={`block text-sm font-medium ${
+                className={`block text-sm font-medium tracking-wider uppercase ${
                   darkMode ? "text-gray-300" : "text-gray-700"
                 }`}
               >
                 Password
               </label>
               <div className="relative">
-                <div
-                  className={`absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ${
-                    darkMode ? "text-gray-400" : "text-gray-500"
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    />
-                  </svg>
-                </div>
                 <input
                   type="password"
                   required
@@ -191,35 +217,52 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={() => setIsFocused("password")}
                   onBlur={() => setIsFocused("")}
-                  className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 transition-all duration-300 focus:outline-none ${
+                  className={`w-full px-4 py-4 rounded-2xl border-2 transition-all duration-300 focus:outline-none font-mono ${
                     isFocused === "password"
-                      ? "border-blue-500 bg-blue-50/50"
+                      ? darkMode
+                        ? "border-white bg-white/5 text-white"
+                        : "border-black bg-black/5 text-black"
                       : darkMode
-                      ? "border-gray-600 bg-gray-800/50 text-white placeholder-gray-400"
-                      : "border-gray-300 bg-white/50 text-gray-900 placeholder-gray-500"
+                      ? "border-gray-600 bg-black/50 text-white placeholder-gray-500"
+                      : "border-gray-300 bg-white/50 text-black placeholder-gray-500"
                   }`}
                   placeholder="••••••••"
                 />
+                <div
+                  className={`absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      isFocused === "password"
+                        ? darkMode
+                          ? "bg-white"
+                          : "bg-black"
+                        : "bg-gray-400"
+                    } transition-colors duration-300`}
+                  ></div>
+                </div>
               </div>
             </div>
 
             {/* Error Message */}
             {error && (
-              <div className="flex items-center space-x-2 text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-xl">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span className="text-sm font-medium">{error}</span>
+              <div
+                className={`flex items-center space-x-3 p-4 rounded-2xl border-2 ${
+                  darkMode
+                    ? "bg-red-900/20 border-red-500/50 text-red-400"
+                    : "bg-red-50 border-red-200 text-red-600"
+                }`}
+              >
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    darkMode ? "bg-red-400" : "bg-red-600"
+                  }`}
+                ></div>
+                <span className="text-sm font-medium tracking-wider uppercase">
+                  {error}
+                </span>
               </div>
             )}
 
@@ -227,46 +270,42 @@ const AdminLogin: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full py-3 px-4 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`w-full py-4 px-6 rounded-2xl font-bold text-lg tracking-widest uppercase transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 disabled:opacity-50 disabled:cursor-not-allowed border-2 ${
                 isLoading
-                  ? "bg-gray-500"
-                  : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  ? darkMode
+                    ? "bg-gray-800 border-gray-600 text-gray-400"
+                    : "bg-gray-200 border-gray-400 text-gray-600"
+                  : darkMode
+                  ? "bg-white text-black border-white hover:bg-black hover:text-white hover:border-gray-400"
+                  : "bg-black text-white border-black hover:bg-white hover:text-black hover:border-gray-400"
               }`}
             >
               {isLoading ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="flex items-center justify-center space-x-3">
+                  <div
+                    className={`w-5 h-5 border-2 border-transparent border-t-current rounded-full animate-spin`}
+                  ></div>
                   <span>Authenticating...</span>
                 </div>
               ) : (
-                <div className="flex items-center justify-center space-x-2">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                    />
-                  </svg>
-                  <span>Access Admin Panel</span>
-                </div>
+                "Access System"
               )}
             </button>
           </form>
 
           {/* Footer */}
-          <div className="mt-8 text-center">
+          <div className="mt-10 text-center">
+            <div
+              className={`w-24 h-px mx-auto mb-4 ${
+                darkMode ? "bg-white/30" : "bg-black/30"
+              }`}
+            ></div>
             <p
-              className={`text-xs ${
+              className={`text-xs tracking-widest uppercase ${
                 darkMode ? "text-gray-500" : "text-gray-400"
               }`}
             >
-              Secure access to portfolio management system
+              Authorized Personnel Only
             </p>
           </div>
         </div>

@@ -16,20 +16,24 @@ export interface Project {
   live_url?: string;
   image_url?: string;
   featured: boolean;
+  category: string;
+  order_index: number;
   created_at: string;
   updated_at: string;
 }
 
 export interface Experience {
   id: string;
+  title: string;
   company: string;
-  position: string;
+  location: string;
   start_date: string;
   end_date?: string;
   current: boolean;
   description: string;
+  technologies: string[];
   achievements: string[];
-  location: string;
+  order_index: number;
   created_at: string;
   updated_at: string;
 }
@@ -40,9 +44,13 @@ export interface Blog {
   slug: string;
   content: string;
   excerpt: string;
-  featured_image?: string;
+  author: string;
+  status: "draft" | "published";
   tags: string[];
-  published: boolean;
+  featured_image?: string;
+  read_time: number;
+  views: number;
+  order_index: number;
   created_at: string;
   updated_at: string;
 }

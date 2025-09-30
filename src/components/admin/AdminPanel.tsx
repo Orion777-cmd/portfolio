@@ -1,27 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAdmin } from "../../context/admin.context";
 import { useDarkMode } from "../../context/darkmode.context";
 import AdminLogin from "./AdminLogin";
 import AdminHeader from "./AdminHeader";
+import ProjectManagement from "./ProjectManagement";
+import ExperienceManagement from "./ExperienceManagement";
+import BlogManagement from "./BlogManagement";
+import { supabase } from "../../lib/supabase";
+
+interface DashboardStats {
+  totalViews: number;
+  activeProjects: number;
+  publishedBlogs: number;
+  totalExperiences: number;
+}
 
 const AdminPanel: React.FC = () => {
   const { isAdmin, isLoading } = useAdmin();
   const { darkMode } = useDarkMode();
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [activeManagement, setActiveManagement] = useState<string | null>(null);
+  const [dashboardStats, setDashboardStats] = useState<DashboardStats>({
+    totalViews: 0,
+    activeProjects: 0,
+    publishedBlogs: 0,
+    totalExperiences: 0,
+  });
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchDashboardStats();
+    }
+  }, [isAdmin]);
+
+  const fetchDashboardStats = async () => {
+    try {
+      // Fetch projects count
+      const { count: projectsCount } = await supabase
+        .from("projects")
+        .select("*", { count: "exact", head: true });
+
+      // Fetch published blogs count
+      const { count: blogsCount } = await supabase
+        .from("blogs")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "published");
+
+      // Fetch experiences count
+      const { count: experiencesCount } = await supabase
+        .from("experiences")
+        .select("*", { count: "exact", head: true });
+
+      // For now, simulate total views (you can implement analytics later)
+      const totalViews = 12500 + Math.floor(Math.random() * 1000);
+
+      setDashboardStats({
+        totalViews,
+        activeProjects: projectsCount || 0,
+        publishedBlogs: blogsCount || 0,
+        totalExperiences: experiencesCount || 0,
+      });
+    } catch (error) {
+      console.error("Error fetching dashboard stats:", error);
+    }
+  };
+
+  const handleCardClick = (cardId: string) => {
+    if (["projects", "experience", "blogs"].includes(cardId)) {
+      setActiveManagement(cardId);
+    } else {
+      // Handle other cards (testimonials, analytics, settings)
+      alert(`${cardId} management coming soon!`);
+    }
+  };
+
+  const handleCloseManagement = () => {
+    setActiveManagement(null);
+    fetchDashboardStats(); // Refresh stats after changes
+  };
 
   if (isLoading) {
     return (
       <div
         className={`flex justify-center items-center min-h-screen font-sans ${
-          darkMode
-            ? "bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
-            : "bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50"
+          darkMode ? "bg-black" : "bg-white"
         }`}
       >
         <div className="relative">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
           <div
-            className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-purple-600 rounded-full animate-spin"
+            className={`w-16 h-16 border-2 border-transparent ${
+              darkMode ? "border-t-white" : "border-t-black"
+            } rounded-full animate-spin`}
+          ></div>
+          <div
+            className={`absolute inset-0 w-16 h-16 border-2 border-transparent ${
+              darkMode ? "border-t-gray-400" : "border-t-gray-600"
+            } rounded-full animate-spin`}
             style={{ animationDirection: "reverse", animationDuration: "1.5s" }}
           ></div>
         </div>
@@ -33,114 +107,122 @@ const AdminPanel: React.FC = () => {
     return <AdminLogin />;
   }
 
+  // Show management component if one is active
+  if (activeManagement) {
+    switch (activeManagement) {
+      case "projects":
+        return <ProjectManagement onClose={handleCloseManagement} />;
+      case "experience":
+        return <ExperienceManagement onClose={handleCloseManagement} />;
+      case "blogs":
+        return <BlogManagement onClose={handleCloseManagement} />;
+      default:
+        return null;
+    }
+  }
+
   const adminCards = [
     {
       id: "projects",
       title: "Projects",
-      description: "Manage your portfolio projects",
-      icon: "🚀",
-      gradient: "from-blue-500 to-cyan-500",
-      bgGradient: darkMode
-        ? "from-blue-900/30 to-cyan-900/30"
-        : "from-blue-50 to-cyan-50",
-      borderColor: darkMode ? "border-blue-500/30" : "border-blue-200",
-      hoverGlow: "hover:shadow-blue-500/25",
-      stats: "12 Active",
+      description: "Manage portfolio projects",
+      icon: "◢",
+      stats: `${dashboardStats.activeProjects} Active`,
+      accent: darkMode ? "border-white/20" : "border-black/20",
     },
     {
       id: "experience",
       title: "Experience",
-      description: "Update professional experience",
-      icon: "💼",
-      gradient: "from-green-500 to-emerald-500",
-      bgGradient: darkMode
-        ? "from-green-900/30 to-emerald-900/30"
-        : "from-green-50 to-emerald-50",
-      borderColor: darkMode ? "border-green-500/30" : "border-green-200",
-      hoverGlow: "hover:shadow-green-500/25",
-      stats: "5 Positions",
+      description: "Update professional history",
+      icon: "◤",
+      stats: `${dashboardStats.totalExperiences} Positions`,
+      accent: darkMode ? "border-white/20" : "border-black/20",
     },
     {
       id: "blogs",
       title: "Blog Posts",
-      description: "Create and edit blog posts",
-      icon: "📝",
-      gradient: "from-purple-500 to-pink-500",
-      bgGradient: darkMode
-        ? "from-purple-900/30 to-pink-900/30"
-        : "from-purple-50 to-pink-50",
-      borderColor: darkMode ? "border-purple-500/30" : "border-purple-200",
-      hoverGlow: "hover:shadow-purple-500/25",
-      stats: "8 Published",
+      description: "Create and edit content",
+      icon: "◥",
+      stats: `${dashboardStats.publishedBlogs} Published`,
+      accent: darkMode ? "border-white/20" : "border-black/20",
     },
     {
       id: "testimonials",
       title: "Testimonials",
-      description: "Manage client testimonials",
-      icon: "⭐",
-      gradient: "from-yellow-500 to-orange-500",
-      bgGradient: darkMode
-        ? "from-yellow-900/30 to-orange-900/30"
-        : "from-yellow-50 to-orange-50",
-      borderColor: darkMode ? "border-yellow-500/30" : "border-yellow-200",
-      hoverGlow: "hover:shadow-yellow-500/25",
-      stats: "15 Reviews",
+      description: "Manage client reviews",
+      icon: "◣",
+      stats: "Coming Soon",
+      accent: darkMode ? "border-white/20" : "border-black/20",
     },
     {
       id: "analytics",
       title: "Analytics",
-      description: "View site analytics",
-      icon: "📊",
-      gradient: "from-indigo-500 to-blue-500",
-      bgGradient: darkMode
-        ? "from-indigo-900/30 to-blue-900/30"
-        : "from-indigo-50 to-blue-50",
-      borderColor: darkMode ? "border-indigo-500/30" : "border-indigo-200",
-      hoverGlow: "hover:shadow-indigo-500/25",
-      stats: "2.5K Views",
+      description: "View site metrics",
+      icon: "◧",
+      stats: `${(dashboardStats.totalViews / 1000).toFixed(1)}K Views`,
+      accent: darkMode ? "border-white/20" : "border-black/20",
     },
     {
       id: "settings",
       title: "Settings",
-      description: "Configure site settings",
-      icon: "⚙️",
-      gradient: "from-gray-500 to-slate-500",
-      bgGradient: darkMode
-        ? "from-gray-800/30 to-slate-800/30"
-        : "from-gray-50 to-slate-50",
-      borderColor: darkMode ? "border-gray-500/30" : "border-gray-200",
-      hoverGlow: "hover:shadow-gray-500/25",
+      description: "System configuration",
+      icon: "◨",
       stats: "System",
+      accent: darkMode ? "border-white/20" : "border-black/20",
     },
   ];
 
   return (
     <div
-      className={`min-h-screen font-sans ${
-        darkMode
-          ? "bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
-          : "bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50"
-      }`}
+      className={`min-h-screen font-sans ${darkMode ? "bg-black" : "bg-white"}`}
     >
       <AdminHeader />
 
-      {/* Animated Background Elements */}
+      {/* Futuristic Grid Background */}
+      <div className="absolute inset-0 opacity-10">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="adminGrid"
+              width="60"
+              height="60"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 60 0 L 0 0 0 60"
+                fill="none"
+                stroke={darkMode ? "#ffffff" : "#000000"}
+                strokeWidth="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#adminGrid)" />
+        </svg>
+      </div>
+
+      {/* Animated Lines */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          className={`absolute top-20 right-20 w-32 h-32 rounded-full opacity-20 animate-pulse ${
-            darkMode ? "bg-blue-400" : "bg-blue-300"
-          }`}
+          className={`absolute top-1/4 left-0 w-full h-px ${
+            darkMode
+              ? "bg-gradient-to-r from-transparent via-white to-transparent"
+              : "bg-gradient-to-r from-transparent via-black to-transparent"
+          } opacity-20 animate-pulse`}
         ></div>
         <div
-          className={`absolute bottom-20 left-20 w-24 h-24 rounded-full opacity-20 animate-pulse ${
-            darkMode ? "bg-purple-400" : "bg-purple-300"
-          }`}
+          className={`absolute top-3/4 left-0 w-full h-px ${
+            darkMode
+              ? "bg-gradient-to-r from-transparent via-white to-transparent"
+              : "bg-gradient-to-r from-transparent via-black to-transparent"
+          } opacity-20 animate-pulse`}
           style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className={`absolute top-1/2 right-1/4 w-16 h-16 rounded-full opacity-20 animate-pulse ${
-            darkMode ? "bg-cyan-400" : "bg-cyan-300"
-          }`}
+          className={`absolute left-1/4 top-0 w-px h-full ${
+            darkMode
+              ? "bg-gradient-to-b from-transparent via-white to-transparent"
+              : "bg-gradient-to-b from-transparent via-black to-transparent"
+          } opacity-20 animate-pulse`}
           style={{ animationDelay: "2s" }}
         ></div>
       </div>
@@ -148,16 +230,18 @@ const AdminPanel: React.FC = () => {
       <div className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <div
-              className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 ${
+              className={`inline-flex items-center justify-center w-24 h-24 rounded-3xl mb-8 border-2 ${
                 darkMode
-                  ? "bg-gradient-to-r from-blue-500 to-purple-600"
-                  : "bg-gradient-to-r from-blue-600 to-purple-700"
+                  ? "bg-black border-white/30"
+                  : "bg-white border-black/30"
               }`}
             >
               <svg
-                className="w-10 h-10 text-white"
+                className={`w-12 h-12 ${
+                  darkMode ? "text-white" : "text-black"
+                }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -165,58 +249,85 @@ const AdminPanel: React.FC = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1}
                   d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                 />
               </svg>
             </div>
             <h1
-              className={`text-4xl font-bold mb-4 ${
-                darkMode ? "text-white" : "text-gray-900"
+              className={`text-5xl font-bold mb-6 tracking-wider ${
+                darkMode ? "text-white" : "text-black"
               }`}
             >
-              Admin Dashboard
+              DASHBOARD
             </h1>
+            <div
+              className={`w-24 h-px mx-auto mb-6 ${
+                darkMode ? "bg-white/50" : "bg-black/50"
+              }`}
+            ></div>
             <p
-              className={`text-lg ${
+              className={`text-lg tracking-widest uppercase ${
                 darkMode ? "text-gray-300" : "text-gray-600"
               }`}
             >
-              Manage your portfolio with advanced tools
+              Portfolio Management System
             </p>
           </div>
 
           {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
             {[
-              { label: "Total Views", value: "12.5K", change: "+12%" },
-              { label: "Active Projects", value: "8", change: "+2" },
-              { label: "Blog Posts", value: "15", change: "+3" },
-              { label: "Testimonials", value: "23", change: "+5" },
+              {
+                label: "Total Views",
+                value: `${(dashboardStats.totalViews / 1000).toFixed(1)}K`,
+                change: "+12%",
+              },
+              {
+                label: "Active Projects",
+                value: dashboardStats.activeProjects.toString(),
+                change: "+2",
+              },
+              {
+                label: "Published Blogs",
+                value: dashboardStats.publishedBlogs.toString(),
+                change: "+3",
+              },
+              {
+                label: "Experiences",
+                value: dashboardStats.totalExperiences.toString(),
+                change: "+1",
+              },
             ].map((stat, index) => (
               <div
                 key={index}
-                className={`backdrop-blur-xl rounded-2xl p-6 border ${
+                className={`backdrop-blur-2xl rounded-3xl p-8 border-2 ${
                   darkMode
-                    ? "bg-gray-800/50 border-gray-700/50"
-                    : "bg-white/50 border-gray-200/50"
+                    ? "bg-black/80 border-white/20"
+                    : "bg-white/80 border-black/20"
                 }`}
               >
                 <div
-                  className={`text-2xl font-bold mb-1 ${
-                    darkMode ? "text-white" : "text-gray-900"
+                  className={`text-3xl font-bold mb-2 tracking-wider ${
+                    darkMode ? "text-white" : "text-black"
                   }`}
                 >
                   {stat.value}
                 </div>
                 <div
-                  className={`text-sm ${
+                  className={`text-sm tracking-widest uppercase mb-2 ${
                     darkMode ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
                   {stat.label}
                 </div>
-                <div className="text-xs text-green-500 mt-1">{stat.change}</div>
+                <div
+                  className={`text-xs tracking-widest uppercase ${
+                    darkMode ? "text-white" : "text-black"
+                  }`}
+                >
+                  {stat.change}
+                </div>
               </div>
             ))}
           </div>
@@ -228,39 +339,58 @@ const AdminPanel: React.FC = () => {
                 key={card.id}
                 onMouseEnter={() => setHoveredCard(card.id)}
                 onMouseLeave={() => setHoveredCard(null)}
-                className={`group relative backdrop-blur-xl rounded-2xl p-8 border transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 cursor-pointer ${
+                onClick={() => handleCardClick(card.id)}
+                className={`group relative backdrop-blur-2xl rounded-3xl p-10 border-2 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 cursor-pointer ${
                   darkMode
-                    ? `bg-gradient-to-br ${card.bgGradient} border ${card.borderColor}`
-                    : `bg-gradient-to-br ${card.bgGradient} border ${card.borderColor}`
-                } ${
-                  hoveredCard === card.id
-                    ? `shadow-2xl ${card.hoverGlow}`
-                    : "shadow-lg"
+                    ? `bg-black/80 border-white/20 ${
+                        hoveredCard === card.id
+                          ? "shadow-2xl shadow-white/20"
+                          : "shadow-lg shadow-white/10"
+                      }`
+                    : `bg-white/80 border-black/20 ${
+                        hoveredCard === card.id
+                          ? "shadow-2xl shadow-black/20"
+                          : "shadow-lg shadow-black/10"
+                      }`
                 }`}
               >
                 {/* Glow Effect */}
                 <div
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${card.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                  className={`absolute inset-0 rounded-3xl ${
+                    darkMode
+                      ? "bg-gradient-to-r from-white/5 via-gray-500/5 to-white/5"
+                      : "bg-gradient-to-r from-black/5 via-gray-500/5 to-black/5"
+                  } opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                 ></div>
 
                 <div className="relative z-10">
                   {/* Icon */}
                   <div
-                    className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-gradient-to-r ${card.gradient}`}
+                    className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-8 border-2 ${
+                      darkMode
+                        ? "bg-black border-white/30"
+                        : "bg-white border-black/30"
+                    }`}
                   >
-                    <span className="text-2xl">{card.icon}</span>
+                    <span
+                      className={`text-3xl ${
+                        darkMode ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {card.icon}
+                    </span>
                   </div>
 
                   {/* Content */}
                   <h3
-                    className={`text-2xl font-bold mb-3 ${
-                      darkMode ? "text-white" : "text-gray-900"
+                    className={`text-2xl font-bold mb-4 tracking-wider ${
+                      darkMode ? "text-white" : "text-black"
                     }`}
                   >
                     {card.title}
                   </h3>
                   <p
-                    className={`mb-4 ${
+                    className={`mb-6 tracking-wide ${
                       darkMode ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
@@ -269,32 +399,38 @@ const AdminPanel: React.FC = () => {
 
                   {/* Stats */}
                   <div
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                    className={`inline-flex items-center px-4 py-2 rounded-2xl text-xs font-bold tracking-widest uppercase border ${
                       darkMode
-                        ? "bg-gray-700 text-gray-300"
-                        : "bg-gray-200 text-gray-700"
+                        ? "bg-white/10 text-white border-white/30"
+                        : "bg-black/10 text-black border-black/30"
                     }`}
                   >
                     {card.stats}
                   </div>
 
                   {/* Arrow */}
-                  <div className="absolute bottom-6 right-6 transform transition-transform duration-300 group-hover:translate-x-1">
-                    <svg
-                      className={`w-6 h-6 ${
-                        darkMode ? "text-gray-400" : "text-gray-500"
+                  <div className="absolute bottom-8 right-8 transform transition-transform duration-300 group-hover:translate-x-2">
+                    <div
+                      className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
+                        darkMode ? "border-white/30" : "border-black/30"
                       }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                      <svg
+                        className={`w-4 h-4 ${
+                          darkMode ? "text-white" : "text-black"
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -303,37 +439,62 @@ const AdminPanel: React.FC = () => {
 
           {/* Quick Actions */}
           <div
-            className={`mt-12 backdrop-blur-xl rounded-2xl p-8 border ${
+            className={`mt-16 backdrop-blur-2xl rounded-3xl p-10 border-2 ${
               darkMode
-                ? "bg-gray-800/50 border-gray-700/50"
-                : "bg-white/50 border-gray-200/50"
+                ? "bg-black/80 border-white/20"
+                : "bg-white/80 border-black/20"
             }`}
           >
             <h3
-              className={`text-xl font-bold mb-6 ${
-                darkMode ? "text-white" : "text-gray-900"
+              className={`text-2xl font-bold mb-8 tracking-wider ${
+                darkMode ? "text-white" : "text-black"
               }`}
             >
               Quick Actions
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { label: "Add New Project", icon: "➕" },
-                { label: "Write Blog Post", icon: "✍️" },
-                { label: "View Analytics", icon: "📈" },
+                {
+                  label: "Add New Project",
+                  icon: "+",
+                  action: () => setActiveManagement("projects"),
+                },
+                {
+                  label: "Write Blog Post",
+                  icon: "◢",
+                  action: () => setActiveManagement("blogs"),
+                },
+                {
+                  label: "Add Experience",
+                  icon: "◧",
+                  action: () => setActiveManagement("experience"),
+                },
               ].map((action, index) => (
                 <button
                   key={index}
-                  className={`flex items-center space-x-3 p-4 rounded-xl border transition-all duration-300 hover:scale-105 ${
+                  onClick={action.action}
+                  className={`flex items-center space-x-4 p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
                     darkMode
-                      ? "bg-gray-700/50 border-gray-600 hover:bg-gray-600/50"
-                      : "bg-white/50 border-gray-200 hover:bg-white/70"
+                      ? "bg-black/50 border-white/20 hover:bg-white/10"
+                      : "bg-white/50 border-black/20 hover:bg-black/10"
                   }`}
                 >
-                  <span className="text-xl">{action.icon}</span>
+                  <div
+                    className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center ${
+                      darkMode ? "border-white/30" : "border-black/30"
+                    }`}
+                  >
+                    <span
+                      className={`text-lg ${
+                        darkMode ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {action.icon}
+                    </span>
+                  </div>
                   <span
-                    className={`font-medium ${
-                      darkMode ? "text-white" : "text-gray-900"
+                    className={`font-bold tracking-wider uppercase ${
+                      darkMode ? "text-white" : "text-black"
                     }`}
                   >
                     {action.label}
