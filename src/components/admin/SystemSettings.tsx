@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../../context/theme.context";
+import ImageUpload from "../common/ImageUpload";
 
 interface SystemSettingsProps {
   onClose: () => void;
@@ -33,8 +34,6 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ onClose }) => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchProfileData();
@@ -50,17 +49,8 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ onClose }) => {
     }
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        setPreviewImage(result);
-        setProfileData({ ...profileData, profile_image: result });
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleImageUpload = (imageUrl: string) => {
+    setProfileData({ ...profileData, profile_image: imageUrl });
   };
 
   const handleSave = async () => {
@@ -425,89 +415,12 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ onClose }) => {
             >
               Profile Picture
             </h3>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <div className="relative">
-                <div
-                  className={`w-32 h-32 rounded-2xl border-2 overflow-hidden ${
-                    isMatrix
-                      ? "border-green-500/50"
-                      : isCyberpunk
-                      ? "border-pink-500/50 cyberpunk-glow"
-                      : isDark
-                      ? "border-white/30"
-                      : "border-black/30"
-                  }`}
-                >
-                  {previewImage || profileData.profile_image ? (
-                    <img
-                      src={previewImage || profileData.profile_image}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div
-                      className={`w-full h-full flex items-center justify-center ${
-                        isMatrix
-                          ? "bg-green-500/20 text-green-400"
-                          : isCyberpunk
-                          ? "bg-pink-500/20 text-pink-400"
-                          : isDark
-                          ? "bg-white/10 text-white"
-                          : "bg-black/10 text-black"
-                      }`}
-                    >
-                      <svg
-                        className="w-12 h-12"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-                {isMatrix && (
-                  <div className="absolute inset-0 rounded-2xl border border-green-500/30 animate-pulse"></div>
-                )}
-                {isCyberpunk && (
-                  <div className="absolute inset-0 rounded-2xl border border-pink-500/30 animate-pulse"></div>
-                )}
-              </div>
-              <div className="flex-1">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className={`px-6 py-3 rounded-xl font-bold tracking-wider uppercase transition-all duration-300 ${
-                    isMatrix
-                      ? "bg-green-500/20 text-green-400 border border-green-500/50 hover:bg-green-500/30"
-                      : isCyberpunk
-                      ? "bg-pink-500/20 text-pink-400 border border-pink-500/50 hover:bg-pink-500/30 cyberpunk-glow"
-                      : isDark
-                      ? "bg-white/10 text-white border border-white/30 hover:bg-white/20"
-                      : "bg-black/10 text-black border border-black/30 hover:bg-black/20"
-                  }`}
-                >
-                  Upload Image
-                </button>
-                <p
-                  className={`text-sm mt-2 ${
-                    isMatrix
-                      ? "text-green-300"
-                      : isDark
-                      ? "text-gray-300"
-                      : "text-gray-600"
-                  }`}
-                >
-                  Recommended: 400x400px, JPG or PNG
-                </p>
-              </div>
-            </div>
+            <ImageUpload
+              onImageUpload={handleImageUpload}
+              currentImageUrl={profileData.profile_image}
+              placeholder="Upload Profile Picture"
+              className="max-w-md"
+            />
           </div>
 
           {/* Profile Information */}

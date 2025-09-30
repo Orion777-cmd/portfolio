@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTheme } from "../context/theme.context";
 import { supabase } from "../lib/supabase";
 import { Project } from "../lib/supabase";
@@ -11,11 +11,7 @@ const Projects: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       // Check if Supabase is configured
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -41,7 +37,11 @@ const Projects: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
 
   const getMockProjects = (): Project[] => {
     return [
@@ -245,18 +245,26 @@ const Projects: React.FC = () => {
             <motion.div
               key={project.id}
               variants={itemVariants}
-              className={`group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2 ${
-                isDark
-                  ? "bg-gray-800/50 border border-gray-700 hover:border-gray-600"
-                  : "bg-white border border-gray-200 hover:border-gray-300"
-              } backdrop-blur-sm`}
+              className={`group relative overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-3 ${
+                isMatrix
+                  ? "bg-gradient-to-br from-black via-gray-900 to-black border-2 border-green-500/30 hover:border-green-500/60 shadow-2xl shadow-green-500/20 hover:shadow-green-500/40"
+                  : isCyberpunk
+                  ? "bg-gradient-to-br from-purple-900/20 via-black to-pink-900/20 border-2 border-purple-500/30 hover:border-purple-500/60 shadow-2xl shadow-purple-500/20 hover:shadow-purple-500/40"
+                  : isDark
+                  ? "bg-gray-800/80 border border-gray-700 hover:border-gray-600 shadow-2xl"
+                  : "bg-white border border-gray-200 hover:border-gray-300 shadow-2xl"
+              } backdrop-blur-sm rounded-2xl`}
             >
               {/* Featured Badge */}
               {project.featured && (
-                <div className="absolute top-4 right-4 z-10">
+                <div className="absolute top-4 right-4 z-20">
                   <div
-                    className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-bold ${
-                      isDark
+                    className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm ${
+                      isMatrix
+                        ? "bg-green-500/20 text-green-400 border border-green-500/50"
+                        : isCyberpunk
+                        ? "bg-purple-500/20 text-purple-400 border border-purple-500/50"
+                        : isDark
                         ? "bg-yellow-500 text-black"
                         : "bg-yellow-400 text-black"
                     }`}
@@ -267,53 +275,116 @@ const Projects: React.FC = () => {
                 </div>
               )}
 
+              {/* Animated Border Effect */}
+              {(isMatrix || isCyberpunk) && (
+                <div
+                  className={`absolute inset-0 rounded-2xl ${
+                    isMatrix ? "matrix-border" : "cyberpunk-border"
+                  } opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                ></div>
+              )}
+
               {/* Project Image */}
               <div
-                className={`h-48 ${
-                  isDark ? "bg-gray-700" : "bg-gray-100"
-                } flex items-center justify-center relative overflow-hidden`}
+                className={`h-56 relative overflow-hidden ${
+                  isMatrix
+                    ? "bg-gradient-to-br from-green-900/20 to-black"
+                    : isCyberpunk
+                    ? "bg-gradient-to-br from-purple-900/20 to-pink-900/20"
+                    : isDark
+                    ? "bg-gray-700"
+                    : "bg-gray-100"
+                }`}
               >
                 {project.image_url ? (
-                  <img
-                    src={project.image_url}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                  <>
+                    <img
+                      src={project.image_url}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    {/* Futuristic Overlay */}
+                    <div
+                      className={`absolute inset-0 transition-all duration-500 ${
+                        isMatrix
+                          ? "bg-gradient-to-t from-green-500/20 via-transparent to-transparent group-hover:from-green-500/30"
+                          : isCyberpunk
+                          ? "bg-gradient-to-t from-purple-500/20 via-transparent to-transparent group-hover:from-purple-500/30"
+                          : "bg-black/0 group-hover:bg-black/20"
+                      }`}
+                    ></div>
+                  </>
                 ) : (
-                  <div className="text-6xl opacity-50">
-                    <svg
-                      className="w-16 h-16"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                      />
-                    </svg>
+                  <div
+                    className={`w-full h-full flex items-center justify-center ${
+                      isMatrix
+                        ? "text-green-400"
+                        : isCyberpunk
+                        ? "text-purple-400"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    <div className="text-6xl opacity-50">
+                      <svg
+                        className="w-16 h-16"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 )}
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+                {/* Scan Line Effect */}
+                {(isMatrix || isCyberpunk) && (
+                  <div
+                    className={`absolute top-0 left-0 w-full h-1 ${
+                      isMatrix ? "bg-green-500" : "bg-purple-500"
+                    } opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse`}
+                  ></div>
+                )}
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-6 relative">
                 {/* Category */}
                 <div
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${
+                  className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 backdrop-blur-sm border ${
                     project.category === "web"
-                      ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+                      ? isMatrix
+                        ? "bg-blue-500/20 text-blue-400 border-blue-500/50"
+                        : isCyberpunk
+                        ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/50"
+                        : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
                       : project.category === "mobile"
-                      ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                      ? isMatrix
+                        ? "bg-green-500/20 text-green-400 border-green-500/50"
+                        : isCyberpunk
+                        ? "bg-green-500/20 text-green-400 border-green-500/50"
+                        : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                       : project.category === "ai"
-                      ? "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
+                      ? isMatrix
+                        ? "bg-purple-500/20 text-purple-400 border-purple-500/50"
+                        : isCyberpunk
+                        ? "bg-pink-500/20 text-pink-400 border-pink-500/50"
+                        : "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
                       : project.category === "data"
-                      ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+                      ? isMatrix
+                        ? "bg-orange-500/20 text-orange-400 border-orange-500/50"
+                        : isCyberpunk
+                        ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/50"
+                        : "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+                      : isMatrix
+                      ? "bg-gray-500/20 text-gray-400 border-gray-500/50"
+                      : isCyberpunk
+                      ? "bg-gray-500/20 text-gray-400 border-gray-500/50"
                       : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
                   }`}
                 >
@@ -322,14 +393,28 @@ const Projects: React.FC = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3
+                  className={`text-xl font-bold mb-3 transition-colors duration-300 ${
+                    isMatrix
+                      ? "text-green-400 group-hover:text-green-300"
+                      : isCyberpunk
+                      ? "text-purple-400 group-hover:text-purple-300"
+                      : "group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                  }`}
+                >
                   {project.title}
                 </h3>
 
                 {/* Description */}
                 <p
-                  className={`text-sm mb-4 line-clamp-3 ${
-                    isDark ? "text-gray-300" : "text-gray-600"
+                  className={`text-sm mb-4 line-clamp-3 leading-relaxed ${
+                    isMatrix
+                      ? "text-green-300/80"
+                      : isCyberpunk
+                      ? "text-purple-300/80"
+                      : isDark
+                      ? "text-gray-300"
+                      : "text-gray-600"
                   }`}
                 >
                   {project.description}
@@ -340,10 +425,14 @@ const Projects: React.FC = () => {
                   {project.technologies.slice(0, 4).map((tech, index) => (
                     <span
                       key={index}
-                      className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                        isDark
-                          ? "bg-gray-700 text-gray-300"
-                          : "bg-gray-100 text-gray-700"
+                      className={`px-3 py-1 rounded-lg text-xs font-medium backdrop-blur-sm border transition-all duration-300 hover:scale-105 ${
+                        isMatrix
+                          ? "bg-green-500/10 text-green-400 border-green-500/30 hover:bg-green-500/20"
+                          : isCyberpunk
+                          ? "bg-purple-500/10 text-purple-400 border-purple-500/30 hover:bg-purple-500/20"
+                          : isDark
+                          ? "bg-gray-700 text-gray-300 border-gray-600"
+                          : "bg-gray-100 text-gray-700 border-gray-200"
                       }`}
                     >
                       {tech}
@@ -351,10 +440,14 @@ const Projects: React.FC = () => {
                   ))}
                   {project.technologies.length > 4 && (
                     <span
-                      className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                        isDark
-                          ? "bg-gray-700 text-gray-300"
-                          : "bg-gray-100 text-gray-700"
+                      className={`px-3 py-1 rounded-lg text-xs font-medium backdrop-blur-sm border ${
+                        isMatrix
+                          ? "bg-gray-500/10 text-gray-400 border-gray-500/30"
+                          : isCyberpunk
+                          ? "bg-gray-500/10 text-gray-400 border-gray-500/30"
+                          : isDark
+                          ? "bg-gray-700 text-gray-300 border-gray-600"
+                          : "bg-gray-100 text-gray-700 border-gray-200"
                       }`}
                     >
                       +{project.technologies.length - 4}
@@ -369,11 +462,15 @@ const Projects: React.FC = () => {
                       href={project.github_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 ${
-                        isDark
-                          ? "bg-gray-700 hover:bg-gray-600 text-white"
-                          : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                      } group-hover:scale-105`}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 backdrop-blur-sm border group-hover:scale-105 ${
+                        isMatrix
+                          ? "bg-green-500/10 text-green-400 border-green-500/30 hover:bg-green-500/20"
+                          : isCyberpunk
+                          ? "bg-purple-500/10 text-purple-400 border-purple-500/30 hover:bg-purple-500/20"
+                          : isDark
+                          ? "bg-gray-700 hover:bg-gray-600 text-white border-gray-600"
+                          : "bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-200"
+                      }`}
                     >
                       <FaGithub className="w-4 h-4" />
                       <span>Code</span>
@@ -384,17 +481,41 @@ const Projects: React.FC = () => {
                       href={project.live_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 ${
-                        isDark
-                          ? "bg-blue-600 hover:bg-blue-700 text-white"
-                          : "bg-blue-500 hover:bg-blue-600 text-white"
-                      } group-hover:scale-105`}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 backdrop-blur-sm border group-hover:scale-105 ${
+                        isMatrix
+                          ? "bg-blue-500/20 text-blue-400 border-blue-500/50 hover:bg-blue-500/30"
+                          : isCyberpunk
+                          ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/50 hover:bg-cyan-500/30"
+                          : isDark
+                          ? "bg-blue-600 hover:bg-blue-700 text-white border-blue-500"
+                          : "bg-blue-500 hover:bg-blue-600 text-white border-blue-400"
+                      }`}
                     >
                       <FaExternalLinkAlt className="w-4 h-4" />
                       <span>Live Demo</span>
                     </a>
                   )}
                 </div>
+
+                {/* Futuristic Corner Accents */}
+                {(isMatrix || isCyberpunk) && (
+                  <>
+                    <div
+                      className={`absolute top-0 right-0 w-8 h-8 ${
+                        isMatrix
+                          ? "border-r-2 border-t-2 border-green-500/50"
+                          : "border-r-2 border-t-2 border-purple-500/50"
+                      }`}
+                    ></div>
+                    <div
+                      className={`absolute bottom-0 left-0 w-8 h-8 ${
+                        isMatrix
+                          ? "border-l-2 border-b-2 border-green-500/50"
+                          : "border-l-2 border-b-2 border-purple-500/50"
+                      }`}
+                    ></div>
+                  </>
+                )}
               </div>
             </motion.div>
           ))}

@@ -225,6 +225,44 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           100% { transform: translateX(20px) translateY(20px); }
         }
         
+        @keyframes matrix-border {
+          0% { 
+            border-color: rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+          }
+          50% { 
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+          }
+          100% { 
+            border-color: rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+          }
+        }
+        
+        @keyframes cyberpunk-border {
+          0% { 
+            border-color: rgba(168, 85, 247, 0.3);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+          }
+          50% { 
+            border-color: rgba(236, 72, 153, 0.6);
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.4);
+          }
+          100% { 
+            border-color: rgba(168, 85, 247, 0.3);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+          }
+        }
+        
+        .matrix-border {
+          animation: matrix-border 2s ease-in-out infinite;
+        }
+        
+        .cyberpunk-border {
+          animation: cyberpunk-border 2s ease-in-out infinite;
+        }
+        
         .cyberpunk-bg::before {
           content: '';
           position: fixed;

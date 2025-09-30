@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { useTheme } from "../../context/theme.context";
 import { Project } from "../../lib/supabase";
+import ImageUpload from "../common/ImageUpload"; // Cloudinary upload component
 
 interface ProjectManagementProps {
   onClose: () => void;
@@ -471,25 +472,22 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
               </div>
 
               <div>
+                {/* Cloudinary Image Upload Component */}
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
                     isDark ? "text-white" : "text-black"
                   }`}
                 >
-                  Image URL
+                  Project Image
                 </label>
-                <input
-                  type="url"
-                  value={formData.image_url}
-                  onChange={(e) =>
-                    setFormData({ ...formData, image_url: e.target.value })
-                  }
-                  className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    isDark
-                      ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
-                      : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
-                  }`}
-                  placeholder="https://example.com/image.jpg"
+                <ImageUpload
+                  onImageUpload={(imageUrl) => {
+                    console.log("Image uploaded:", imageUrl);
+                    setFormData({ ...formData, image_url: imageUrl });
+                  }}
+                  currentImageUrl={formData.image_url}
+                  placeholder="Upload Project Image"
+                  className="max-w-md"
                 />
               </div>
 
