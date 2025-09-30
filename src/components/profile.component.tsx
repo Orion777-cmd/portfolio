@@ -1,10 +1,10 @@
 import Social from "./socials.component";
-import { useDarkMode } from "../context/darkmode.context";
+import { useTheme } from "../context/theme.context";
 import { motion } from "framer-motion";
 import { FaCode, FaRocket, FaStar } from "react-icons/fa";
 
 const Profile = () => {
-  const { darkMode } = useDarkMode();
+  const { isDark, isMatrix, isCyberpunk } = useTheme();
 
   return (
     <motion.div
@@ -12,7 +12,15 @@ const Profile = () => {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
       className={`backdrop-blur-xl rounded-3xl border-2 p-8 max-w-2xl mx-auto relative overflow-hidden ${
-        darkMode
+        isMatrix
+          ? isDark
+            ? "bg-[#09110D]/80 border-[#1AA06D]/50 shadow-2xl shadow-[#0B3221]/50"
+            : "bg-[#E8F5E8]/80 border-[#135E3D]/50 shadow-2xl shadow-[#135E3D]/30"
+          : isCyberpunk
+          ? isDark
+            ? "bg-[#1D0225]/80 border-[#C231C9]/50 shadow-2xl shadow-[#260B68]/50"
+            : "bg-[#F0E8FF]/80 border-[#C231C9]/50 shadow-2xl shadow-[#C231C9]/30"
+          : isDark
           ? "bg-gray-900/80 border-gray-700 shadow-2xl shadow-gray-900/50"
           : "bg-white/80 border-gray-200 shadow-2xl shadow-gray-300/50"
       }`}
@@ -26,7 +34,7 @@ const Profile = () => {
         >
           <div
             className={`absolute inset-0 rounded-full blur-xl opacity-30 ${
-              darkMode
+              isDark
                 ? "bg-gradient-to-r from-gray-400 to-white"
                 : "bg-gradient-to-r from-gray-600 to-gray-800"
             }`}
@@ -41,13 +49,13 @@ const Profile = () => {
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className={`absolute -top-2 -right-2 w-12 h-12 rounded-full flex items-center justify-center ${
-              darkMode
+              isDark
                 ? "bg-gray-800 border-2 border-gray-600"
                 : "bg-gray-100 border-2 border-gray-300"
             }`}
           >
             <FaCode
-              className={`text-lg ${darkMode ? "text-white" : "text-gray-700"}`}
+              className={`text-lg ${isDark ? "text-white" : "text-gray-700"}`}
             />
           </motion.div>
         </motion.div>
@@ -56,7 +64,17 @@ const Profile = () => {
         <div className="flex-1 text-center lg:text-left">
           <motion.h1
             className={`text-3xl sm:text-4xl font-bold mb-4 ${
-              darkMode ? "text-white" : "text-gray-900"
+              isMatrix
+                ? isDark
+                  ? "text-[#1AA06D]"
+                  : "text-[#135E3D]"
+                : isCyberpunk
+                ? isDark
+                  ? "text-[#C231C9]"
+                  : "text-[#4C5DD7]"
+                : isDark
+                ? "text-white"
+                : "text-gray-900"
             }`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,7 +91,7 @@ const Profile = () => {
           >
             <div
               className={`flex items-center justify-center lg:justify-start gap-3 ${
-                darkMode ? "text-gray-300" : "text-gray-600"
+                isDark ? "text-gray-300" : "text-gray-600"
               }`}
             >
               <FaRocket className="text-lg" />
@@ -84,7 +102,7 @@ const Profile = () => {
 
             <div
               className={`flex items-center justify-center lg:justify-start gap-3 ${
-                darkMode ? "text-gray-300" : "text-gray-600"
+                isDark ? "text-gray-300" : "text-gray-600"
               }`}
             >
               <FaStar className="text-lg text-yellow-500" />
@@ -108,7 +126,7 @@ const Profile = () => {
       {/* Grid Overlay */}
       <div
         className={`absolute inset-0 pointer-events-none ${
-          darkMode
+          isDark
             ? "bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)]"
             : "bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)]"
         }`}
@@ -119,14 +137,14 @@ const Profile = () => {
       <div className="absolute top-4 right-4 w-20 h-20 opacity-10">
         <div
           className={`w-full h-full rounded-full ${
-            darkMode ? "bg-white" : "bg-gray-800"
+            isDark ? "bg-white" : "bg-gray-800"
           } animate-pulse`}
         />
       </div>
       <div className="absolute bottom-4 left-4 w-16 h-16 opacity-10">
         <div
           className={`w-full h-full rounded-full ${
-            darkMode ? "bg-gray-400" : "bg-gray-600"
+            isDark ? "bg-gray-400" : "bg-gray-600"
           } animate-pulse delay-1000`}
         />
       </div>

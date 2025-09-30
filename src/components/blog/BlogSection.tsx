@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useDarkMode } from "../../context/darkmode.context";
+import { useTheme } from "../../context/theme.context";
 import { supabase } from "../../lib/supabase";
 import { Blog } from "../../lib/supabase";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 
 const BlogSection: React.FC = () => {
-  const { darkMode } = useDarkMode();
+  const { isDark, isMatrix, isCyberpunk } = useTheme();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -145,13 +145,13 @@ const BlogSection: React.FC = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center font-sans ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+          isDark ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
         <div className="text-center">
           <div
             className={`w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4 ${
-              darkMode ? "text-white" : "text-black"
+              isDark ? "text-white" : "text-black"
             }`}
           ></div>
           <p className="text-lg font-medium">Loading blog posts...</p>
@@ -164,13 +164,13 @@ const BlogSection: React.FC = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center font-sans ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+          isDark ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
         <div className="text-center">
           <div
             className={`w-16 h-16 rounded-full mx-auto mb-4 ${
-              darkMode ? "bg-red-900/20" : "bg-red-100"
+              isDark ? "bg-red-900/20" : "bg-red-100"
             } flex items-center justify-center`}
           >
             <span className="text-2xl">⚠️</span>
@@ -184,13 +184,13 @@ const BlogSection: React.FC = () => {
   return (
     <section
       className={`py-16 px-4 sm:px-6 lg:px-8 font-sans relative overflow-hidden ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+        isDark ? "bg-gray-900 text-white" : "bg-white text-black"
       }`}
     >
       {/* Grid Overlay */}
       <div
         className={`absolute inset-0 pointer-events-none ${
-          darkMode
+          isDark
             ? "bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]"
             : "bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)]"
         }`}
@@ -207,7 +207,7 @@ const BlogSection: React.FC = () => {
         >
           <div
             className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${
-              darkMode ? "bg-gray-800" : "bg-gray-100"
+              isDark ? "bg-gray-800" : "bg-gray-100"
             }`}
           >
             <svg
@@ -224,12 +224,26 @@ const BlogSection: React.FC = () => {
               />
             </svg>
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+          <h2
+            className={`text-4xl sm:text-5xl font-bold mb-4 tracking-tight ${
+              isMatrix
+                ? isDark
+                  ? "text-[#1AA06D]"
+                  : "text-[#135E3D]"
+                : isCyberpunk
+                ? isDark
+                  ? "text-[#C231C9]"
+                  : "text-[#4C5DD7]"
+                : isDark
+                ? "text-white"
+                : "text-black"
+            }`}
+          >
             Latest Blog Posts
           </h2>
           <div
             className={`w-24 h-1 mx-auto mb-6 ${
-              darkMode ? "bg-white" : "bg-black"
+              isDark ? "bg-white" : "bg-black"
             }`}
           ></div>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -251,7 +265,7 @@ const BlogSection: React.FC = () => {
               key={blog.id}
               variants={itemVariants}
               className={`group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2 ${
-                darkMode
+                isDark
                   ? "bg-gray-800/50 border border-gray-700 hover:border-gray-600"
                   : "bg-white border border-gray-200 hover:border-gray-300"
               } backdrop-blur-sm`}
@@ -259,7 +273,7 @@ const BlogSection: React.FC = () => {
               {/* Featured Image */}
               <div
                 className={`h-48 ${
-                  darkMode ? "bg-gray-700" : "bg-gray-100"
+                  isDark ? "bg-gray-700" : "bg-gray-100"
                 } flex items-center justify-center relative overflow-hidden`}
               >
                 {blog.featured_image ? (
@@ -296,7 +310,7 @@ const BlogSection: React.FC = () => {
                 <div className="flex items-center space-x-4 text-xs mb-3">
                   <div
                     className={`flex items-center space-x-1 ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     <FaCalendarAlt className="w-3 h-3" />
@@ -304,7 +318,7 @@ const BlogSection: React.FC = () => {
                   </div>
                   <div
                     className={`flex items-center space-x-1 ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     <FaClock className="w-3 h-3" />
@@ -312,7 +326,7 @@ const BlogSection: React.FC = () => {
                   </div>
                   <div
                     className={`flex items-center space-x-1 ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     <FaEye className="w-3 h-3" />
@@ -328,7 +342,7 @@ const BlogSection: React.FC = () => {
                 {/* Excerpt */}
                 <p
                   className={`text-sm mb-4 line-clamp-3 ${
-                    darkMode ? "text-gray-300" : "text-gray-600"
+                    isDark ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
                   {blog.excerpt}
@@ -341,7 +355,7 @@ const BlogSection: React.FC = () => {
                       <span
                         key={index}
                         className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-xs font-medium ${
-                          darkMode
+                          isDark
                             ? "bg-gray-700 text-gray-300"
                             : "bg-gray-100 text-gray-700"
                         }`}
@@ -353,7 +367,7 @@ const BlogSection: React.FC = () => {
                     {blog.tags.length > 3 && (
                       <span
                         className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                          darkMode
+                          isDark
                             ? "bg-gray-700 text-gray-300"
                             : "bg-gray-100 text-gray-700"
                         }`}
@@ -368,14 +382,14 @@ const BlogSection: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <span
                     className={`text-sm font-medium ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     By {blog.author}
                   </span>
                   <div
                     className={`flex items-center space-x-2 text-sm font-medium transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400 ${
-                      darkMode ? "text-gray-300" : "text-gray-700"
+                      isDark ? "text-gray-300" : "text-gray-700"
                     }`}
                   >
                     <span>Read More</span>
@@ -397,7 +411,7 @@ const BlogSection: React.FC = () => {
           >
             <div
               className={`w-24 h-24 rounded-full mx-auto mb-6 ${
-                darkMode ? "bg-gray-800" : "bg-gray-100"
+                isDark ? "bg-gray-800" : "bg-gray-100"
               } flex items-center justify-center`}
             >
               <svg
@@ -417,7 +431,7 @@ const BlogSection: React.FC = () => {
             <h3 className="text-xl font-semibold mb-2">No Blog Posts Yet</h3>
             <p
               className={`text-sm ${
-                darkMode ? "text-gray-400" : "text-gray-500"
+                isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
               Blog posts will appear here once they're published.
@@ -436,7 +450,7 @@ const BlogSection: React.FC = () => {
           >
             <div
               className={`inline-flex items-center space-x-2 px-6 py-3 rounded-2xl font-medium transition-all duration-300 ${
-                darkMode
+                isDark
                   ? "bg-gray-800 hover:bg-gray-700 text-white"
                   : "bg-gray-100 hover:bg-gray-200 text-gray-700"
               }`}

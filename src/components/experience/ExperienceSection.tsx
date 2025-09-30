@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useDarkMode } from "../../context/darkmode.context";
+import { useTheme } from "../../context/theme.context";
 import { supabase } from "../../lib/supabase";
 import { Experience } from "../../lib/supabase";
 import { motion } from "framer-motion";
@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 
 const ExperienceSection: React.FC = () => {
-  const { darkMode } = useDarkMode();
+  const { isDark, isMatrix, isCyberpunk } = useTheme();
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -142,13 +142,13 @@ const ExperienceSection: React.FC = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center font-sans ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+          isDark ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
         <div className="text-center">
           <div
             className={`w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4 ${
-              darkMode ? "text-white" : "text-black"
+              isDark ? "text-white" : "text-black"
             }`}
           ></div>
           <p className="text-lg font-medium">Loading experience...</p>
@@ -161,13 +161,13 @@ const ExperienceSection: React.FC = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center font-sans ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+          isDark ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
         <div className="text-center">
           <div
             className={`w-16 h-16 rounded-full mx-auto mb-4 ${
-              darkMode ? "bg-red-900/20" : "bg-red-100"
+              isDark ? "bg-red-900/20" : "bg-red-100"
             } flex items-center justify-center`}
           >
             <span className="text-2xl">⚠️</span>
@@ -181,13 +181,13 @@ const ExperienceSection: React.FC = () => {
   return (
     <section
       className={`py-16 px-4 sm:px-6 lg:px-8 font-sans relative overflow-hidden ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+        isDark ? "bg-gray-900 text-white" : "bg-white text-black"
       }`}
     >
       {/* Grid Overlay */}
       <div
         className={`absolute inset-0 pointer-events-none ${
-          darkMode
+          isDark
             ? "bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]"
             : "bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)]"
         }`}
@@ -204,7 +204,7 @@ const ExperienceSection: React.FC = () => {
         >
           <div
             className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${
-              darkMode ? "bg-gray-800" : "bg-gray-100"
+              isDark ? "bg-gray-800" : "bg-gray-100"
             }`}
           >
             <svg
@@ -221,12 +221,26 @@ const ExperienceSection: React.FC = () => {
               />
             </svg>
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+          <h2
+            className={`text-4xl sm:text-5xl font-bold mb-4 tracking-tight ${
+              isMatrix
+                ? isDark
+                  ? "text-[#1AA06D]"
+                  : "text-[#135E3D]"
+                : isCyberpunk
+                ? isDark
+                  ? "text-[#C231C9]"
+                  : "text-[#4C5DD7]"
+                : isDark
+                ? "text-white"
+                : "text-black"
+            }`}
+          >
             Professional Experience
           </h2>
           <div
             className={`w-24 h-1 mx-auto mb-6 ${
-              darkMode ? "bg-white" : "bg-black"
+              isDark ? "bg-white" : "bg-black"
             }`}
           ></div>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -246,7 +260,7 @@ const ExperienceSection: React.FC = () => {
           {/* Timeline Line */}
           <div
             className={`absolute left-8 top-0 bottom-0 w-0.5 ${
-              darkMode ? "bg-gray-700" : "bg-gray-300"
+              isDark ? "bg-gray-700" : "bg-gray-300"
             }`}
           ></div>
 
@@ -262,10 +276,10 @@ const ExperienceSection: React.FC = () => {
                 <div
                   className={`relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-4 ${
                     experience.current
-                      ? darkMode
+                      ? isDark
                         ? "border-green-500 bg-green-500"
                         : "border-green-600 bg-green-600"
-                      : darkMode
+                      : isDark
                       ? "border-gray-700 bg-gray-800"
                       : "border-gray-300 bg-white"
                   }`}
@@ -273,13 +287,13 @@ const ExperienceSection: React.FC = () => {
                   {experience.current ? (
                     <div
                       className={`w-3 h-3 rounded-full ${
-                        darkMode ? "bg-gray-900" : "bg-white"
+                        isDark ? "bg-gray-900" : "bg-white"
                       } animate-pulse`}
                     ></div>
                   ) : (
                     <div
                       className={`w-3 h-3 rounded-full ${
-                        darkMode ? "bg-gray-600" : "bg-gray-400"
+                        isDark ? "bg-gray-600" : "bg-gray-400"
                       }`}
                     ></div>
                   )}
@@ -288,7 +302,7 @@ const ExperienceSection: React.FC = () => {
                 {/* Content */}
                 <div
                   className={`flex-1 rounded-2xl p-6 transition-all duration-300 hover:scale-105 ${
-                    darkMode
+                    isDark
                       ? "bg-gray-800/50 border border-gray-700 hover:border-gray-600"
                       : "bg-white border border-gray-200 hover:border-gray-300"
                   } backdrop-blur-sm shadow-lg`}
@@ -302,7 +316,7 @@ const ExperienceSection: React.FC = () => {
                       <div className="flex items-center space-x-2 mb-2">
                         <span
                           className={`text-lg font-semibold ${
-                            darkMode ? "text-gray-300" : "text-gray-700"
+                            isDark ? "text-gray-300" : "text-gray-700"
                           }`}
                         >
                           {experience.company}
@@ -310,7 +324,7 @@ const ExperienceSection: React.FC = () => {
                         {experience.current && (
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-bold ${
-                              darkMode
+                              isDark
                                 ? "bg-green-500 text-black"
                                 : "bg-green-600 text-white"
                             }`}
@@ -322,7 +336,7 @@ const ExperienceSection: React.FC = () => {
                     </div>
                     <div
                       className={`text-sm ${
-                        darkMode ? "text-gray-400" : "text-gray-500"
+                        isDark ? "text-gray-400" : "text-gray-500"
                       }`}
                     >
                       {calculateDuration(
@@ -338,9 +352,7 @@ const ExperienceSection: React.FC = () => {
                       <div className="flex items-center space-x-1">
                         <FaMapMarkerAlt className="w-3 h-3" />
                         <span
-                          className={
-                            darkMode ? "text-gray-400" : "text-gray-500"
-                          }
+                          className={isDark ? "text-gray-400" : "text-gray-500"}
                         >
                           {experience.location}
                         </span>
@@ -348,9 +360,7 @@ const ExperienceSection: React.FC = () => {
                       <div className="flex items-center space-x-1">
                         <FaCalendarAlt className="w-3 h-3" />
                         <span
-                          className={
-                            darkMode ? "text-gray-400" : "text-gray-500"
-                          }
+                          className={isDark ? "text-gray-400" : "text-gray-500"}
                         >
                           {formatDate(experience.start_date)} -{" "}
                           {experience.current
@@ -364,7 +374,7 @@ const ExperienceSection: React.FC = () => {
                   {/* Description */}
                   <p
                     className={`text-sm mb-4 leading-relaxed ${
-                      darkMode ? "text-gray-300" : "text-gray-600"
+                      isDark ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
                     {experience.description}
@@ -377,7 +387,7 @@ const ExperienceSection: React.FC = () => {
                         <FaCode className="w-4 h-4" />
                         <h4
                           className={`text-sm font-semibold ${
-                            darkMode ? "text-gray-300" : "text-gray-700"
+                            isDark ? "text-gray-300" : "text-gray-700"
                           }`}
                         >
                           Technologies
@@ -388,7 +398,7 @@ const ExperienceSection: React.FC = () => {
                           <span
                             key={index}
                             className={`px-3 py-1 rounded-lg text-xs font-medium ${
-                              darkMode
+                              isDark
                                 ? "bg-gray-700 text-gray-300"
                                 : "bg-gray-100 text-gray-700"
                             }`}
@@ -407,7 +417,7 @@ const ExperienceSection: React.FC = () => {
                         <FaTrophy className="w-4 h-4" />
                         <h4
                           className={`text-sm font-semibold ${
-                            darkMode ? "text-gray-300" : "text-gray-700"
+                            isDark ? "text-gray-300" : "text-gray-700"
                           }`}
                         >
                           Key Achievements
@@ -418,12 +428,12 @@ const ExperienceSection: React.FC = () => {
                           <li
                             key={index}
                             className={`text-sm flex items-start space-x-2 ${
-                              darkMode ? "text-gray-300" : "text-gray-600"
+                              isDark ? "text-gray-300" : "text-gray-600"
                             }`}
                           >
                             <span
                               className={`w-1.5 h-1.5 rounded-full mt-2 ${
-                                darkMode ? "bg-gray-500" : "bg-gray-400"
+                                isDark ? "bg-gray-500" : "bg-gray-400"
                               }`}
                             ></span>
                             <span>{achievement}</span>
@@ -448,7 +458,7 @@ const ExperienceSection: React.FC = () => {
           >
             <div
               className={`w-24 h-24 rounded-full mx-auto mb-6 ${
-                darkMode ? "bg-gray-800" : "bg-gray-100"
+                isDark ? "bg-gray-800" : "bg-gray-100"
               } flex items-center justify-center`}
             >
               <svg
@@ -468,7 +478,7 @@ const ExperienceSection: React.FC = () => {
             <h3 className="text-xl font-semibold mb-2">No Experience Yet</h3>
             <p
               className={`text-sm ${
-                darkMode ? "text-gray-400" : "text-gray-500"
+                isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
               Professional experience will appear here once added to the

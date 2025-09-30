@@ -13,12 +13,12 @@ import { SiNestjs } from "react-icons/si";
 import { SiTailwindcss } from "react-icons/si";
 import { DiMongodb } from "react-icons/di";
 import { BiLogoPostgresql } from "react-icons/bi";
-import { useDarkMode } from "../context/darkmode.context";
+import { useTheme } from "../context/theme.context";
 import { motion } from "framer-motion";
 import { FaCode, FaCog } from "react-icons/fa";
 
 const Languages = () => {
-  const { darkMode } = useDarkMode();
+  const { isDark, isMatrix, isCyberpunk } = useTheme();
 
   const techStack = [
     {
@@ -142,7 +142,7 @@ const Languages = () => {
       {/* Grid Overlay */}
       <div
         className={`absolute inset-0 pointer-events-none ${
-          darkMode
+          isDark
             ? "bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]"
             : "bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)]"
         }`}
@@ -160,26 +160,54 @@ const Languages = () => {
           <div className="flex items-center justify-center gap-4 mb-6">
             <FaCode
               className={`text-4xl ${
-                darkMode ? "text-gray-400" : "text-gray-600"
+                isMatrix
+                  ? isDark
+                    ? "text-[#1AA06D]"
+                    : "text-[#135E3D]"
+                  : isCyberpunk
+                  ? isDark
+                    ? "text-[#C231C9]"
+                    : "text-[#4C5DD7]"
+                  : isDark
+                  ? "text-gray-400"
+                  : "text-gray-600"
               }`}
             />
             <h2
               className={`text-3xl sm:text-4xl font-bold tracking-wider ${
-                darkMode ? "text-white" : "text-gray-900"
+                isMatrix
+                  ? isDark
+                    ? "text-[#1AA06D]"
+                    : "text-[#135E3D]"
+                  : isCyberpunk
+                  ? isDark
+                    ? "text-[#C231C9]"
+                    : "text-[#4C5DD7]"
+                  : isDark
+                  ? "text-white"
+                  : "text-gray-900"
               }`}
             >
               Tech Stack
             </h2>
             <FaCog
               className={`text-4xl ${
-                darkMode ? "text-gray-400" : "text-gray-600"
+                isMatrix
+                  ? isDark
+                    ? "text-[#1AA06D]"
+                    : "text-[#135E3D]"
+                  : isCyberpunk
+                  ? isDark
+                    ? "text-[#C231C9]"
+                    : "text-[#4C5DD7]"
+                  : isDark
+                  ? "text-gray-400"
+                  : "text-gray-600"
               } animate-spin`}
             />
           </div>
           <p
-            className={`text-lg ${
-              darkMode ? "text-gray-400" : "text-gray-600"
-            }`}
+            className={`text-lg ${isDark ? "text-gray-400" : "text-gray-600"}`}
           >
             Technologies I work with to build amazing experiences
           </p>
@@ -207,7 +235,15 @@ const Languages = () => {
               }}
               whileTap={{ scale: 0.95 }}
               className={`group relative backdrop-blur-xl rounded-2xl border-2 p-6 transition-all duration-300 ${
-                darkMode
+                isMatrix
+                  ? isDark
+                    ? "bg-[#0B3221]/50 border-[#135E3D] hover:bg-[#135E3D]/30 hover:border-[#1AA06D]"
+                    : "bg-[#E8F5E8]/50 border-[#135E3D] hover:bg-[#F0F8F0]/70 hover:border-[#0B3221]"
+                  : isCyberpunk
+                  ? isDark
+                    ? "bg-[#260B68]/50 border-[#4C5DD7] hover:bg-[#4C5DD7]/30 hover:border-[#C231C9]"
+                    : "bg-[#F0E8FF]/50 border-[#4C5DD7] hover:bg-[#F5F0FF]/70 hover:border-[#260B68]"
+                  : isDark
                   ? "bg-gray-800/50 border-gray-700 hover:bg-gray-700/50 hover:border-gray-600"
                   : "bg-white/50 border-gray-200 hover:bg-gray-50/50 hover:border-gray-300"
               }`}
@@ -222,7 +258,17 @@ const Languages = () => {
                 {/* Tooltip */}
                 <span
                   className={`text-sm font-semibold tracking-wide ${
-                    darkMode ? "text-gray-300" : "text-gray-700"
+                    isMatrix
+                      ? isDark
+                        ? "text-[#1AA06D]"
+                        : "text-[#135E3D]"
+                      : isCyberpunk
+                      ? isDark
+                        ? "text-[#C231C9]"
+                        : "text-[#4C5DD7]"
+                      : isDark
+                      ? "text-gray-300"
+                      : "text-gray-700"
                   } group-hover:text-opacity-80`}
                 >
                   {tech.name}
@@ -272,7 +318,7 @@ const Languages = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.5 }}
           className={`mt-12 h-1 w-32 mx-auto rounded-full ${
-            darkMode
+            isDark
               ? "bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600"
               : "bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400"
           }`}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
-import { useDarkMode } from "../../context/darkmode.context";
+import { useTheme } from "../../context/theme.context";
 
 interface Blog {
   id: string;
@@ -42,7 +42,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
     read_time: 5,
     order_index: 0,
   });
-  const { darkMode } = useDarkMode();
+  const { isDark } = useTheme();
 
   useEffect(() => {
     fetchBlogs();
@@ -193,7 +193,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
     return (
       <div
         className={`flex justify-center items-center min-h-96 ${
-          darkMode ? "text-white" : "text-black"
+          isDark ? "text-white" : "text-black"
         }`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-current"></div>
@@ -203,33 +203,31 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
 
   return (
     <div
-      className={`fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4`}
+      className={`fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4`}
     >
       <div
-        className={`w-full max-w-7xl max-h-[90vh] overflow-hidden rounded-3xl border-2 ${
-          darkMode
-            ? "bg-black/90 border-white/20"
-            : "bg-white/90 border-black/20"
+        className={`w-full max-w-7xl max-h-[95vh] overflow-hidden rounded-2xl sm:rounded-3xl border-2 ${
+          isDark ? "bg-black/90 border-white/20" : "bg-white/90 border-black/20"
         }`}
       >
         {/* Header */}
         <div
-          className={`flex items-center justify-between p-6 border-b-2 ${
-            darkMode ? "border-white/20" : "border-black/20"
+          className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b-2 gap-4 ${
+            isDark ? "border-white/20" : "border-black/20"
           }`}
         >
           <h2
-            className={`text-3xl font-bold tracking-wider ${
-              darkMode ? "text-white" : "text-black"
+            className={`text-2xl sm:text-3xl font-bold tracking-wider ${
+              isDark ? "text-white" : "text-black"
             }`}
           >
             Blog Management
           </h2>
-          <div className="flex space-x-4">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <button
               onClick={openCreateModal}
-              className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 ${
-                darkMode
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 text-sm sm:text-base ${
+                isDark
                   ? "bg-white text-black hover:bg-gray-200"
                   : "bg-black text-white hover:bg-gray-800"
               }`}
@@ -238,8 +236,8 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
             </button>
             <button
               onClick={onClose}
-              className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 border-2 ${
-                darkMode
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 border-2 text-sm sm:text-base ${
+                isDark
                   ? "border-white text-white hover:bg-white hover:text-black"
                   : "border-black text-black hover:bg-black hover:text-white"
               }`}
@@ -250,23 +248,23 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(95vh-140px)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className={`rounded-2xl border-2 p-6 transition-all duration-300 hover:scale-[1.01] ${
-                  darkMode
+                className={`rounded-xl sm:rounded-2xl border-2 p-4 sm:p-6 transition-all duration-300 hover:scale-[1.01] ${
+                  isDark
                     ? "bg-black/50 border-white/20 hover:border-white/40"
                     : "bg-white/50 border-black/20 hover:border-black/40"
                 }`}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4 gap-3">
+                  <div className="flex-1 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2">
                       <h3
-                        className={`text-lg font-bold tracking-wider ${
-                          darkMode ? "text-white" : "text-black"
+                        className={`text-base sm:text-lg font-bold tracking-wider ${
+                          isDark ? "text-white" : "text-black"
                         }`}
                       >
                         {blog.title}
@@ -274,10 +272,10 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
                           blog.status === "published"
-                            ? darkMode
+                            ? isDark
                               ? "bg-green-600 text-white"
                               : "bg-green-500 text-white"
-                            : darkMode
+                            : isDark
                             ? "bg-yellow-600 text-white"
                             : "bg-yellow-500 text-white"
                         }`}
@@ -286,15 +284,15 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                       </span>
                     </div>
                     <div
-                      className={`text-sm mb-2 ${
-                        darkMode ? "text-gray-300" : "text-gray-600"
+                      className={`text-sm mb-2 line-clamp-2 ${
+                        isDark ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
                       {blog.excerpt}
                     </div>
                     <div
                       className={`text-xs ${
-                        darkMode ? "text-gray-400" : "text-gray-500"
+                        isDark ? "text-gray-400" : "text-gray-500"
                       }`}
                     >
                       {blog.read_time} min read • {blog.views} views •{" "}
@@ -303,7 +301,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                     {blog.published_at && (
                       <div
                         className={`text-xs ${
-                          darkMode ? "text-gray-400" : "text-gray-500"
+                          isDark ? "text-gray-400" : "text-gray-500"
                         }`}
                       >
                         Published:{" "}
@@ -314,13 +312,13 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                 </div>
 
                 {blog.tags.length > 0 && (
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-2">
+                  <div className="mb-3 sm:mb-4">
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
                       {blog.tags.map((tag, index) => (
                         <span
                           key={index}
                           className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                            darkMode
+                            isDark
                               ? "bg-white/10 text-white border border-white/20"
                               : "bg-black/10 text-black border border-black/20"
                           }`}
@@ -332,23 +330,23 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                   <span
                     className={`text-xs tracking-widest uppercase ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     Order: {blog.order_index}
                   </span>
-                  <div className="flex space-x-2">
+                  <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                     <button
                       onClick={() => handleToggleStatus(blog)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
+                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 flex-1 sm:flex-none ${
                         blog.status === "published"
-                          ? darkMode
+                          ? isDark
                             ? "bg-yellow-600 text-white hover:bg-yellow-500"
                             : "bg-yellow-500 text-white hover:bg-yellow-600"
-                          : darkMode
+                          : isDark
                           ? "bg-green-600 text-white hover:bg-green-500"
                           : "bg-green-500 text-white hover:bg-green-600"
                       }`}
@@ -357,8 +355,8 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                     </button>
                     <button
                       onClick={() => handleEdit(blog)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                        darkMode
+                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 flex-1 sm:flex-none ${
+                        isDark
                           ? "bg-blue-600 text-white hover:bg-blue-500"
                           : "bg-blue-500 text-white hover:bg-blue-600"
                       }`}
@@ -367,8 +365,8 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                     </button>
                     <button
                       onClick={() => handleDelete(blog.id)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                        darkMode
+                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 flex-1 sm:flex-none ${
+                        isDark
                           ? "bg-red-600 text-white hover:bg-red-500"
                           : "bg-red-500 text-white hover:bg-red-600"
                       }`}
@@ -384,7 +382,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
           {blogs.length === 0 && (
             <div
               className={`text-center py-12 ${
-                darkMode ? "text-gray-400" : "text-gray-500"
+                isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
               <p className="text-lg tracking-wider uppercase">
@@ -401,35 +399,38 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
       {/* Modal */}
       {isModalOpen && (
         <div
-          className={`fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-60 p-4`}
+          className={`fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-60 p-2 sm:p-4`}
         >
           <div
-            className={`w-full max-w-4xl rounded-3xl border-2 ${
-              darkMode
+            className={`w-full max-w-4xl max-h-[95vh] overflow-y-auto rounded-2xl sm:rounded-3xl border-2 ${
+              isDark
                 ? "bg-black/90 border-white/20"
                 : "bg-white/90 border-black/20"
             }`}
           >
             <div
-              className={`p-6 border-b-2 ${
-                darkMode ? "border-white/20" : "border-black/20"
+              className={`p-4 sm:p-6 border-b-2 ${
+                isDark ? "border-white/20" : "border-black/20"
               }`}
             >
               <h3
-                className={`text-2xl font-bold tracking-wider ${
-                  darkMode ? "text-white" : "text-black"
+                className={`text-xl sm:text-2xl font-bold tracking-wider ${
+                  isDark ? "text-white" : "text-black"
                 }`}
               >
                 {editingBlog ? "Edit Blog Post" : "Add New Blog Post"}
               </h3>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form
+              onSubmit={handleSubmit}
+              className="p-4 sm:p-6 space-y-4 sm:space-y-6"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Title
@@ -442,7 +443,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, title: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -453,7 +454,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Slug (auto-generated if empty)
@@ -465,7 +466,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, slug: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -477,7 +478,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Excerpt
@@ -489,7 +490,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                     setFormData({ ...formData, excerpt: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none resize-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -500,7 +501,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Content (Markdown supported)
@@ -513,7 +514,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onClose }) => {
                     setFormData({ ...formData, content: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none resize-none font-mono text-sm ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -535,11 +536,11 @@ const example = 'Hello World';
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Tags (comma separated)
@@ -551,7 +552,7 @@ const example = 'Hello World';
                       setFormData({ ...formData, tags: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -562,7 +563,7 @@ const example = 'Hello World';
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Read Time (minutes)
@@ -578,7 +579,7 @@ const example = 'Hello World';
                       })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -589,7 +590,7 @@ const example = 'Hello World';
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Featured Image URL
@@ -601,7 +602,7 @@ const example = 'Hello World';
                     setFormData({ ...formData, featured_image: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -609,11 +610,11 @@ const example = 'Hello World';
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Status
@@ -627,7 +628,7 @@ const example = 'Hello World';
                       })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -640,7 +641,7 @@ const example = 'Hello World';
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Publish Date
@@ -652,7 +653,7 @@ const example = 'Hello World';
                       setFormData({ ...formData, published_at: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -662,7 +663,7 @@ const example = 'Hello World';
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Order Index
@@ -678,7 +679,7 @@ const example = 'Hello World';
                       })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -686,12 +687,12 @@ const example = 'Hello World';
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-4 pt-6">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 pt-4 sm:pt-6">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 border-2 ${
-                    darkMode
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 border-2 text-sm sm:text-base ${
+                    isDark
                       ? "border-white text-white hover:bg-white hover:text-black"
                       : "border-black text-black hover:bg-black hover:text-white"
                   }`}
@@ -700,8 +701,8 @@ const example = 'Hello World';
                 </button>
                 <button
                   type="submit"
-                  className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 ${
-                    darkMode
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 text-sm sm:text-base ${
+                    isDark
                       ? "bg-white text-black hover:bg-gray-200"
                       : "bg-black text-white hover:bg-gray-800"
                   }`}

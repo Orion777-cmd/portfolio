@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
-import { useDarkMode } from "../../context/darkmode.context";
+import { useTheme } from "../../context/theme.context";
 import { Project } from "../../lib/supabase";
 
 interface ProjectManagementProps {
@@ -23,7 +23,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
     category: "web",
     order_index: 0,
   });
-  const { darkMode } = useDarkMode();
+  const { isDark } = useTheme();
 
   useEffect(() => {
     fetchProjects();
@@ -48,17 +48,25 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const projectData = {
+        ...formData,
+        technologies: formData.technologies
+          .split(",")
+          .map((tech) => tech.trim())
+          .filter(Boolean),
+      };
+
       if (editingProject) {
         // Update existing project
         const { error } = await supabase
           .from("projects")
-          .update(formData)
+          .update(projectData)
           .eq("id", editingProject.id);
 
         if (error) throw error;
       } else {
         // Create new project
-        const { error } = await supabase.from("projects").insert([formData]);
+        const { error } = await supabase.from("projects").insert([projectData]);
 
         if (error) throw error;
       }
@@ -125,7 +133,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
     return (
       <div
         className={`flex justify-center items-center min-h-96 ${
-          darkMode ? "text-white" : "text-black"
+          isDark ? "text-white" : "text-black"
         }`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-current"></div>
@@ -139,20 +147,18 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
     >
       <div
         className={`w-full max-w-7xl max-h-[95vh] overflow-hidden rounded-2xl sm:rounded-3xl border-2 ${
-          darkMode
-            ? "bg-black/90 border-white/20"
-            : "bg-white/90 border-black/20"
+          isDark ? "bg-black/90 border-white/20" : "bg-white/90 border-black/20"
         }`}
       >
         {/* Header */}
         <div
           className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b-2 gap-4 ${
-            darkMode ? "border-white/20" : "border-black/20"
+            isDark ? "border-white/20" : "border-black/20"
           }`}
         >
           <h2
             className={`text-2xl sm:text-3xl font-bold tracking-wider ${
-              darkMode ? "text-white" : "text-black"
+              isDark ? "text-white" : "text-black"
             }`}
           >
             Project Management
@@ -161,7 +167,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
             <button
               onClick={openCreateModal}
               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 text-sm sm:text-base ${
-                darkMode
+                isDark
                   ? "bg-white text-black hover:bg-gray-200"
                   : "bg-black text-white hover:bg-gray-800"
               }`}
@@ -171,7 +177,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
             <button
               onClick={onClose}
               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 border-2 text-sm sm:text-base ${
-                darkMode
+                isDark
                   ? "border-white text-white hover:bg-white hover:text-black"
                   : "border-black text-black hover:bg-black hover:text-white"
               }`}
@@ -188,7 +194,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
               <div
                 key={project.id}
                 className={`rounded-xl sm:rounded-2xl border-2 p-4 sm:p-6 transition-all duration-300 hover:scale-105 ${
-                  darkMode
+                  isDark
                     ? "bg-black/50 border-white/20 hover:border-white/40"
                     : "bg-white/50 border-black/20 hover:border-black/40"
                 }`}
@@ -196,7 +202,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <div className="flex items-start justify-between mb-3 sm:mb-4">
                   <h3
                     className={`text-lg sm:text-xl font-bold tracking-wider ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     {project.title}
@@ -204,7 +210,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                   {project.featured && (
                     <span
                       className={`px-2 sm:px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
-                        darkMode ? "bg-white text-black" : "bg-black text-white"
+                        isDark ? "bg-white text-black" : "bg-black text-white"
                       }`}
                     >
                       Featured
@@ -214,7 +220,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
 
                 <p
                   className={`text-sm mb-3 sm:mb-4 tracking-wide line-clamp-3 ${
-                    darkMode ? "text-gray-300" : "text-gray-600"
+                    isDark ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
                   {project.description}
@@ -225,7 +231,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                     <span
                       key={index}
                       className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                        darkMode
+                        isDark
                           ? "bg-white/10 text-white border border-white/20"
                           : "bg-black/10 text-black border border-black/20"
                       }`}
@@ -238,7 +244,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                   <span
                     className={`text-xs tracking-widest uppercase ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     Order: {project.order_index}
@@ -247,7 +253,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                     <button
                       onClick={() => handleEdit(project)}
                       className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                        darkMode
+                        isDark
                           ? "bg-blue-600 text-white hover:bg-blue-500"
                           : "bg-blue-500 text-white hover:bg-blue-600"
                       }`}
@@ -257,7 +263,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                     <button
                       onClick={() => handleDelete(project.id)}
                       className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                        darkMode
+                        isDark
                           ? "bg-red-600 text-white hover:bg-red-500"
                           : "bg-red-500 text-white hover:bg-red-600"
                       }`}
@@ -273,7 +279,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
           {projects.length === 0 && (
             <div
               className={`text-center py-12 ${
-                darkMode ? "text-gray-400" : "text-gray-500"
+                isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
               <p className="text-lg tracking-wider uppercase">
@@ -292,19 +298,19 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
         >
           <div
             className={`w-full max-w-2xl max-h-[95vh] overflow-y-auto rounded-2xl sm:rounded-3xl border-2 ${
-              darkMode
+              isDark
                 ? "bg-black/90 border-white/20"
                 : "bg-white/90 border-black/20"
             }`}
           >
             <div
               className={`p-4 sm:p-6 border-b-2 ${
-                darkMode ? "border-white/20" : "border-black/20"
+                isDark ? "border-white/20" : "border-black/20"
               }`}
             >
               <h3
                 className={`text-xl sm:text-2xl font-bold tracking-wider ${
-                  darkMode ? "text-white" : "text-black"
+                  isDark ? "text-white" : "text-black"
                 }`}
               >
                 {editingProject ? "Edit Project" : "Add New Project"}
@@ -319,7 +325,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Title
@@ -332,7 +338,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, title: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -343,7 +349,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Category
@@ -354,7 +360,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, category: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -371,7 +377,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Description
@@ -384,7 +390,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                     setFormData({ ...formData, description: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none resize-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -395,7 +401,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Technologies (comma separated)
@@ -408,7 +414,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                     setFormData({ ...formData, technologies: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -416,11 +422,11 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     GitHub URL
@@ -432,7 +438,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, github_url: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -443,7 +449,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Live URL
@@ -455,7 +461,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, live_url: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -467,7 +473,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Image URL
@@ -479,7 +485,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                     setFormData({ ...formData, image_url: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -487,7 +493,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="flex items-center space-x-3">
                   <input
                     type="checkbox"
@@ -497,13 +503,13 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                       setFormData({ ...formData, featured: e.target.checked })
                     }
                     className={`w-5 h-5 rounded ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   />
                   <label
                     htmlFor="featured"
                     className={`text-sm font-bold tracking-wider uppercase ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Featured Project
@@ -513,7 +519,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Order Index
@@ -529,7 +535,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                       })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -542,7 +548,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 border-2 text-sm sm:text-base ${
-                    darkMode
+                    isDark
                       ? "border-white text-white hover:bg-white hover:text-black"
                       : "border-black text-black hover:bg-black hover:text-white"
                   }`}
@@ -552,7 +558,7 @@ const ProjectManagement: React.FC<ProjectManagementProps> = ({ onClose }) => {
                 <button
                   type="submit"
                   className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 text-sm sm:text-base ${
-                    darkMode
+                    isDark
                       ? "bg-white text-black hover:bg-gray-200"
                       : "bg-black text-white hover:bg-gray-800"
                   }`}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
-import { useDarkMode } from "../../context/darkmode.context";
+import { useTheme } from "../../context/theme.context";
 
 interface Experience {
   id: string;
@@ -43,7 +43,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
     achievements: "",
     order_index: 0,
   });
-  const { darkMode } = useDarkMode();
+  const { isDark } = useTheme();
 
   useEffect(() => {
     fetchExperiences();
@@ -165,7 +165,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
     return (
       <div
         className={`flex justify-center items-center min-h-96 ${
-          darkMode ? "text-white" : "text-black"
+          isDark ? "text-white" : "text-black"
         }`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-current"></div>
@@ -175,33 +175,31 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4`}
+      className={`fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4`}
     >
       <div
-        className={`w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-3xl border-2 ${
-          darkMode
-            ? "bg-black/90 border-white/20"
-            : "bg-white/90 border-black/20"
+        className={`w-full max-w-6xl max-h-[95vh] overflow-hidden rounded-2xl sm:rounded-3xl border-2 ${
+          isDark ? "bg-black/90 border-white/20" : "bg-white/90 border-black/20"
         }`}
       >
         {/* Header */}
         <div
-          className={`flex items-center justify-between p-6 border-b-2 ${
-            darkMode ? "border-white/20" : "border-black/20"
+          className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b-2 gap-4 ${
+            isDark ? "border-white/20" : "border-black/20"
           }`}
         >
           <h2
-            className={`text-3xl font-bold tracking-wider ${
-              darkMode ? "text-white" : "text-black"
+            className={`text-2xl sm:text-3xl font-bold tracking-wider ${
+              isDark ? "text-white" : "text-black"
             }`}
           >
             Experience Management
           </h2>
-          <div className="flex space-x-4">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <button
               onClick={openCreateModal}
-              className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 ${
-                darkMode
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 text-sm sm:text-base ${
+                isDark
                   ? "bg-white text-black hover:bg-gray-200"
                   : "bg-black text-white hover:bg-gray-800"
               }`}
@@ -210,8 +208,8 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
             </button>
             <button
               onClick={onClose}
-              className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 border-2 ${
-                darkMode
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 hover:scale-105 border-2 text-sm sm:text-base ${
+                isDark
                   ? "border-white text-white hover:bg-white hover:text-black"
                   : "border-black text-black hover:bg-black hover:text-white"
               }`}
@@ -222,31 +220,31 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          <div className="space-y-6">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(95vh-140px)]">
+          <div className="space-y-4 sm:space-y-6">
             {experiences.map((experience) => (
               <div
                 key={experience.id}
-                className={`rounded-2xl border-2 p-6 transition-all duration-300 hover:scale-[1.01] ${
-                  darkMode
+                className={`rounded-xl sm:rounded-2xl border-2 p-4 sm:p-6 transition-all duration-300 hover:scale-[1.01] ${
+                  isDark
                     ? "bg-black/50 border-white/20 hover:border-white/40"
                     : "bg-white/50 border-black/20 hover:border-black/40"
                 }`}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-4 mb-2">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4 gap-3">
+                  <div className="flex-1 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-2">
                       <h3
-                        className={`text-xl font-bold tracking-wider ${
-                          darkMode ? "text-white" : "text-black"
+                        className={`text-lg sm:text-xl font-bold tracking-wider ${
+                          isDark ? "text-white" : "text-black"
                         }`}
                       >
                         {experience.title}
                       </h3>
                       {experience.current && (
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
-                            darkMode
+                          className={`px-2 sm:px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase ${
+                            isDark
                               ? "bg-green-600 text-white"
                               : "bg-green-500 text-white"
                           }`}
@@ -256,26 +254,26 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                       )}
                     </div>
                     <div
-                      className={`text-lg font-semibold mb-1 ${
-                        darkMode ? "text-gray-300" : "text-gray-700"
+                      className={`text-base sm:text-lg font-semibold mb-1 ${
+                        isDark ? "text-gray-300" : "text-gray-700"
                       }`}
                     >
                       {experience.company}
                     </div>
                     <div
                       className={`text-sm ${
-                        darkMode ? "text-gray-400" : "text-gray-600"
+                        isDark ? "text-gray-400" : "text-gray-600"
                       }`}
                     >
                       {experience.location} • {experience.start_date} -{" "}
                       {experience.current ? "Present" : experience.end_date}
                     </div>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 w-full sm:w-auto">
                     <button
                       onClick={() => handleEdit(experience)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                        darkMode
+                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 flex-1 sm:flex-none ${
+                        isDark
                           ? "bg-blue-600 text-white hover:bg-blue-500"
                           : "bg-blue-500 text-white hover:bg-blue-600"
                       }`}
@@ -284,8 +282,8 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     </button>
                     <button
                       onClick={() => handleDelete(experience.id)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 ${
-                        darkMode
+                      className={`px-3 py-1 rounded-lg text-xs font-bold tracking-widest uppercase transition-all duration-300 flex-1 sm:flex-none ${
+                        isDark
                           ? "bg-red-600 text-white hover:bg-red-500"
                           : "bg-red-500 text-white hover:bg-red-600"
                       }`}
@@ -296,28 +294,28 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 </div>
 
                 <p
-                  className={`text-sm mb-4 tracking-wide ${
-                    darkMode ? "text-gray-300" : "text-gray-600"
+                  className={`text-sm mb-3 sm:mb-4 tracking-wide line-clamp-3 ${
+                    isDark ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
                   {experience.description}
                 </p>
 
                 {experience.technologies.length > 0 && (
-                  <div className="mb-4">
+                  <div className="mb-3 sm:mb-4">
                     <h4
                       className={`text-xs font-bold tracking-widest uppercase mb-2 ${
-                        darkMode ? "text-gray-400" : "text-gray-500"
+                        isDark ? "text-gray-400" : "text-gray-500"
                       }`}
                     >
                       Technologies
                     </h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
                       {experience.technologies.map((tech, index) => (
                         <span
                           key={index}
                           className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                            darkMode
+                            isDark
                               ? "bg-white/10 text-white border border-white/20"
                               : "bg-black/10 text-black border border-black/20"
                           }`}
@@ -330,10 +328,10 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 )}
 
                 {experience.achievements.length > 0 && (
-                  <div className="mb-4">
+                  <div className="mb-3 sm:mb-4">
                     <h4
                       className={`text-xs font-bold tracking-widest uppercase mb-2 ${
-                        darkMode ? "text-gray-400" : "text-gray-500"
+                        isDark ? "text-gray-400" : "text-gray-500"
                       }`}
                     >
                       Key Achievements
@@ -343,7 +341,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                         <li
                           key={index}
                           className={`text-xs ${
-                            darkMode ? "text-gray-300" : "text-gray-600"
+                            isDark ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
                           • {achievement}
@@ -356,7 +354,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 <div className="flex items-center justify-between">
                   <span
                     className={`text-xs tracking-widest uppercase ${
-                      darkMode ? "text-gray-400" : "text-gray-500"
+                      isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     Order: {experience.order_index}
@@ -369,7 +367,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
           {experiences.length === 0 && (
             <div
               className={`text-center py-12 ${
-                darkMode ? "text-gray-400" : "text-gray-500"
+                isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
               <p className="text-lg tracking-wider uppercase">
@@ -386,35 +384,38 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
       {/* Modal */}
       {isModalOpen && (
         <div
-          className={`fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-60 p-4`}
+          className={`fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-60 p-2 sm:p-4`}
         >
           <div
-            className={`w-full max-w-3xl rounded-3xl border-2 ${
-              darkMode
+            className={`w-full max-w-3xl max-h-[95vh] overflow-y-auto rounded-2xl sm:rounded-3xl border-2 ${
+              isDark
                 ? "bg-black/90 border-white/20"
                 : "bg-white/90 border-black/20"
             }`}
           >
             <div
-              className={`p-6 border-b-2 ${
-                darkMode ? "border-white/20" : "border-black/20"
+              className={`p-4 sm:p-6 border-b-2 ${
+                isDark ? "border-white/20" : "border-black/20"
               }`}
             >
               <h3
-                className={`text-2xl font-bold tracking-wider ${
-                  darkMode ? "text-white" : "text-black"
+                className={`text-xl sm:text-2xl font-bold tracking-wider ${
+                  isDark ? "text-white" : "text-black"
                 }`}
               >
                 {editingExperience ? "Edit Experience" : "Add New Experience"}
               </h3>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form
+              onSubmit={handleSubmit}
+              className="p-4 sm:p-6 space-y-4 sm:space-y-6"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Job Title
@@ -427,7 +428,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                       setFormData({ ...formData, title: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -438,7 +439,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Company
@@ -451,7 +452,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                       setFormData({ ...formData, company: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                         : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                     }`}
@@ -463,7 +464,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Location
@@ -476,7 +477,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     setFormData({ ...formData, location: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -484,11 +485,11 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     Start Date
@@ -501,7 +502,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                       setFormData({ ...formData, start_date: e.target.value })
                     }
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white"
                         : "bg-white/50 border-black/20 text-black focus:border-black"
                     }`}
@@ -511,7 +512,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 <div>
                   <label
                     className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                      darkMode ? "text-white" : "text-black"
+                      isDark ? "text-white" : "text-black"
                     }`}
                   >
                     End Date
@@ -524,14 +525,14 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     }
                     disabled={formData.current}
                     className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                      darkMode
+                      isDark
                         ? "bg-black/50 border-white/20 text-white focus:border-white disabled:opacity-50"
                         : "bg-white/50 border-black/20 text-black focus:border-black disabled:opacity-50"
                     }`}
                   />
                 </div>
 
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center sm:col-span-2 lg:col-span-1">
                   <div className="flex items-center space-x-3">
                     <input
                       type="checkbox"
@@ -545,13 +546,13 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                         })
                       }
                       className={`w-5 h-5 rounded ${
-                        darkMode ? "text-white" : "text-black"
+                        isDark ? "text-white" : "text-black"
                       }`}
                     />
                     <label
                       htmlFor="current"
                       className={`text-sm font-bold tracking-wider uppercase ${
-                        darkMode ? "text-white" : "text-black"
+                        isDark ? "text-white" : "text-black"
                       }`}
                     >
                       Current Position
@@ -563,7 +564,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Description
@@ -576,7 +577,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     setFormData({ ...formData, description: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none resize-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -587,7 +588,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Technologies (comma separated)
@@ -599,7 +600,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     setFormData({ ...formData, technologies: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -610,7 +611,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Key Achievements (comma separated)
@@ -622,7 +623,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     setFormData({ ...formData, achievements: e.target.value })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none resize-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white placeholder-gray-400 focus:border-white"
                       : "bg-white/50 border-black/20 text-black placeholder-gray-500 focus:border-black"
                   }`}
@@ -633,7 +634,7 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
               <div>
                 <label
                   className={`block text-sm font-bold tracking-wider uppercase mb-2 ${
-                    darkMode ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black"
                   }`}
                 >
                   Order Index
@@ -649,19 +650,19 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                     })
                   }
                   className={`w-full px-4 py-3 rounded-2xl border-2 transition-all duration-300 focus:outline-none ${
-                    darkMode
+                    isDark
                       ? "bg-black/50 border-white/20 text-white focus:border-white"
                       : "bg-white/50 border-black/20 text-black focus:border-black"
                   }`}
                 />
               </div>
 
-              <div className="flex justify-end space-x-4 pt-6">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 pt-4 sm:pt-6">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 border-2 ${
-                    darkMode
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 border-2 text-sm sm:text-base ${
+                    isDark
                       ? "border-white text-white hover:bg-white hover:text-black"
                       : "border-black text-black hover:bg-black hover:text-white"
                   }`}
@@ -670,8 +671,8 @@ const ExperienceManagement: React.FC<ExperienceManagementProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className={`px-6 py-3 rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 ${
-                    darkMode
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold tracking-wider uppercase transition-all duration-300 text-sm sm:text-base ${
+                    isDark
                       ? "bg-white text-black hover:bg-gray-200"
                       : "bg-black text-white hover:bg-gray-800"
                   }`}

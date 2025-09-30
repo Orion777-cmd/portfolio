@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useDarkMode } from "../context/darkmode.context";
+import { useTheme } from "../context/theme.context";
 import { supabase } from "../lib/supabase";
 import { Project } from "../lib/supabase";
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaStar } from "react-icons/fa";
 
 const Projects: React.FC = () => {
-  const { darkMode } = useDarkMode();
+  const { isDark, isMatrix, isCyberpunk } = useTheme();
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -126,13 +126,13 @@ const Projects: React.FC = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center font-sans ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+          isDark ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
         <div className="text-center">
           <div
             className={`w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4 ${
-              darkMode ? "text-white" : "text-black"
+              isDark ? "text-white" : "text-black"
             }`}
           ></div>
           <p className="text-lg font-medium">Loading projects...</p>
@@ -145,13 +145,13 @@ const Projects: React.FC = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center font-sans ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+          isDark ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
       >
         <div className="text-center">
           <div
             className={`w-16 h-16 rounded-full mx-auto mb-4 ${
-              darkMode ? "bg-red-900/20" : "bg-red-100"
+              isDark ? "bg-red-900/20" : "bg-red-100"
             } flex items-center justify-center`}
           >
             <span className="text-2xl">⚠️</span>
@@ -165,13 +165,13 @@ const Projects: React.FC = () => {
   return (
     <section
       className={`py-16 px-4 sm:px-6 lg:px-8 font-sans relative overflow-hidden ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+        isDark ? "bg-gray-900 text-white" : "bg-white text-black"
       }`}
     >
       {/* Grid Overlay */}
       <div
         className={`absolute inset-0 pointer-events-none ${
-          darkMode
+          isDark
             ? "bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]"
             : "bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)]"
         }`}
@@ -188,7 +188,7 @@ const Projects: React.FC = () => {
         >
           <div
             className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${
-              darkMode ? "bg-gray-800" : "bg-gray-100"
+              isDark ? "bg-gray-800" : "bg-gray-100"
             }`}
           >
             <svg
@@ -205,12 +205,26 @@ const Projects: React.FC = () => {
               />
             </svg>
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+          <h2
+            className={`text-4xl sm:text-5xl font-bold mb-4 tracking-tight ${
+              isMatrix
+                ? isDark
+                  ? "text-[#1AA06D]"
+                  : "text-[#135E3D]"
+                : isCyberpunk
+                ? isDark
+                  ? "text-[#C231C9]"
+                  : "text-[#4C5DD7]"
+                : isDark
+                ? "text-white"
+                : "text-black"
+            }`}
+          >
             Featured Projects
           </h2>
           <div
             className={`w-24 h-1 mx-auto mb-6 ${
-              darkMode ? "bg-white" : "bg-black"
+              isDark ? "bg-white" : "bg-black"
             }`}
           ></div>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -232,7 +246,7 @@ const Projects: React.FC = () => {
               key={project.id}
               variants={itemVariants}
               className={`group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-2 ${
-                darkMode
+                isDark
                   ? "bg-gray-800/50 border border-gray-700 hover:border-gray-600"
                   : "bg-white border border-gray-200 hover:border-gray-300"
               } backdrop-blur-sm`}
@@ -242,7 +256,7 @@ const Projects: React.FC = () => {
                 <div className="absolute top-4 right-4 z-10">
                   <div
                     className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-bold ${
-                      darkMode
+                      isDark
                         ? "bg-yellow-500 text-black"
                         : "bg-yellow-400 text-black"
                     }`}
@@ -256,7 +270,7 @@ const Projects: React.FC = () => {
               {/* Project Image */}
               <div
                 className={`h-48 ${
-                  darkMode ? "bg-gray-700" : "bg-gray-100"
+                  isDark ? "bg-gray-700" : "bg-gray-100"
                 } flex items-center justify-center relative overflow-hidden`}
               >
                 {project.image_url ? (
@@ -315,7 +329,7 @@ const Projects: React.FC = () => {
                 {/* Description */}
                 <p
                   className={`text-sm mb-4 line-clamp-3 ${
-                    darkMode ? "text-gray-300" : "text-gray-600"
+                    isDark ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
                   {project.description}
@@ -327,7 +341,7 @@ const Projects: React.FC = () => {
                     <span
                       key={index}
                       className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                        darkMode
+                        isDark
                           ? "bg-gray-700 text-gray-300"
                           : "bg-gray-100 text-gray-700"
                       }`}
@@ -338,7 +352,7 @@ const Projects: React.FC = () => {
                   {project.technologies.length > 4 && (
                     <span
                       className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                        darkMode
+                        isDark
                           ? "bg-gray-700 text-gray-300"
                           : "bg-gray-100 text-gray-700"
                       }`}
@@ -356,7 +370,7 @@ const Projects: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 ${
-                        darkMode
+                        isDark
                           ? "bg-gray-700 hover:bg-gray-600 text-white"
                           : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                       } group-hover:scale-105`}
@@ -371,7 +385,7 @@ const Projects: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 ${
-                        darkMode
+                        isDark
                           ? "bg-blue-600 hover:bg-blue-700 text-white"
                           : "bg-blue-500 hover:bg-blue-600 text-white"
                       } group-hover:scale-105`}
@@ -396,7 +410,7 @@ const Projects: React.FC = () => {
           >
             <div
               className={`w-24 h-24 rounded-full mx-auto mb-6 ${
-                darkMode ? "bg-gray-800" : "bg-gray-100"
+                isDark ? "bg-gray-800" : "bg-gray-100"
               } flex items-center justify-center`}
             >
               <svg
@@ -416,7 +430,7 @@ const Projects: React.FC = () => {
             <h3 className="text-xl font-semibold mb-2">No Projects Yet</h3>
             <p
               className={`text-sm ${
-                darkMode ? "text-gray-400" : "text-gray-500"
+                isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
               Projects will appear here once they're added to the portfolio.
@@ -434,7 +448,7 @@ const Projects: React.FC = () => {
         >
           <div
             className={`inline-flex items-center space-x-2 px-6 py-3 rounded-2xl font-medium transition-all duration-300 ${
-              darkMode
+              isDark
                 ? "bg-gray-800 hover:bg-gray-700 text-white"
                 : "bg-gray-100 hover:bg-gray-200 text-gray-700"
             }`}

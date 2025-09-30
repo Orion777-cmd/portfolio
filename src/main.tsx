@@ -1,13 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { DarkModeProvider } from './context/darkmode.context.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { ThemeProvider } from "./context/theme.context.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <DarkModeProvider>
+    <ThemeProvider>
       <App />
-    </DarkModeProvider>
-  </React.StrictMode>,
-)
+    </ThemeProvider>
+  </React.StrictMode>
+);

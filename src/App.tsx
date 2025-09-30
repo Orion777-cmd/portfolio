@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/header.component";
 
-import { useDarkMode } from "./context/darkmode.context";
+import { useTheme } from "./context/theme.context";
 import { AdminProvider } from "./context/admin.context";
 
 import Profile from "./components/profile.component";

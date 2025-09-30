@@ -4,11 +4,11 @@ import { SiCodeforces } from "react-icons/si";
 import { SiCodewars } from "react-icons/si";
 import { MdAlternateEmail } from "react-icons/md";
 import { SiUpwork } from "react-icons/si";
-import { useDarkMode } from "../context/darkmode.context";
+import { useTheme } from "../context/theme.context";
 import { motion } from "framer-motion";
 
 const Socials = () => {
-  const { darkMode } = useDarkMode();
+  const { isDark, isMatrix, isCyberpunk } = useTheme();
 
   const socialLinks = [
     {
@@ -84,7 +84,7 @@ const Socials = () => {
       initial="hidden"
       animate="visible"
       className={`flex flex-wrap justify-center gap-6 items-center pt-6 border-t-2 ${
-        darkMode ? "border-gray-600" : "border-gray-300"
+        isDark ? "border-gray-600" : "border-gray-300"
       }`}
     >
       {socialLinks.map((social) => (
@@ -101,14 +101,22 @@ const Socials = () => {
           }}
           whileTap={{ scale: 0.9 }}
           className={`group relative p-3 rounded-xl transition-all duration-300 ${
-            darkMode ? "hover:bg-gray-700/50" : "hover:bg-gray-100/50"
+            isDark ? "hover:bg-gray-700/50" : "hover:bg-gray-100/50"
           }`}
           title={social.name}
         >
           <social.icon
             size={32}
             className={`transition-colors duration-300 ${
-              darkMode
+              isMatrix
+                ? isDark
+                  ? "text-[#1AA06D] group-hover:text-[#135E3D]"
+                  : "text-[#135E3D] group-hover:text-[#0B3221]"
+                : isCyberpunk
+                ? isDark
+                  ? "text-[#C231C9] group-hover:text-[#4C5DD7]"
+                  : "text-[#4C5DD7] group-hover:text-[#260B68]"
+                : isDark
                 ? "text-white group-hover:text-gray-300"
                 : "text-gray-700 group-hover:text-gray-900"
             }`}
@@ -117,7 +125,7 @@ const Socials = () => {
           {/* Hover Tooltip */}
           <div
             className={`absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-              darkMode ? "bg-gray-800 text-white" : "bg-gray-900 text-white"
+              isDark ? "bg-gray-800 text-white" : "bg-gray-900 text-white"
             }`}
           >
             {social.name}
@@ -126,7 +134,7 @@ const Socials = () => {
           {/* Subtle Glow Effect */}
           <div
             className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 ${
-              darkMode ? "bg-white" : "bg-gray-400"
+              isDark ? "bg-white" : "bg-gray-400"
             }`}
           />
         </motion.a>
