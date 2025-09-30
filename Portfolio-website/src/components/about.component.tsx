@@ -14,25 +14,17 @@ const About = () => {
       <p
         className={`text-left text-white text-lg font-normal text mx-auto py-5`}
       >
-        As a fourth-year Software Engineering student at Addis Ababa Institute
-        of Technology, I am deeply committed to leverage my technical skills and
-        knowledge to develop innovative software solutions that drive business
-        growth and enhance user experience. Proficient in typescript, python ,
-        golang, flutter, I specialize in full-stack development, seamlessly
-        blending front-end finesse with robust back-end solutions. My expertise
-        lies in crafting efficient and scalable software architectures that
-        address complex technical challenges. With a strong foundation in
-        problem-solving and an analytical mindset, I thrive in dynamic and
-        innovative environments where collaborative efforts drive progress.
-        Outside the realm of academia, my passion for technology extends to
-        exploring the intricacies of software development methodologies,
-        refining my coding skills, and staying abreast of emerging trends in the
-        field. My experience encompasses a wide range of projects, from
-        designing intuitive user interfaces to architecting scalable backend
-        systems. Beyond my academic pursuits, I am deeply engaged in the vibrant
-        community of software engineers, actively contributing to open-source
-        projects and participating in industry events to broaden my knowledge
-        and network with like-minded professionals.
+        I’m a Software Engineer with a strong focus on building innovative,
+        scalable, and user-centered software solutions. Proficient in
+        TypeScript, Python, Go, and Flutter, I specialize in full-stack
+        development—bringing together intuitive front-end experiences and
+        reliable back-end architectures. With a solid foundation in
+        problem-solving and software design, I thrive in dynamic environments
+        where collaboration and innovation drive impact. My experience ranges
+        from designing seamless user interfaces to architecting systems that
+        solve complex technical challenges. Beyond work, I’m eager to contribute
+        to open-source projects, continuously refine my skills, and explore
+        emerging technologies to stay ahead of the curve.
       </p>
       <p className={`text-lg text-white`}>
         {darkMode

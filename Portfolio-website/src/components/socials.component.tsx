@@ -1,9 +1,11 @@
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
 import { SiCodeforces } from "react-icons/si";
 import { SiCodewars } from "react-icons/si";
 import { MdAlternateEmail } from "react-icons/md";
+import { SiUpwork } from "react-icons/si";
+
+
 import { useDarkMode } from "../context/darkmode.context";
 
 const Socials = () => {
@@ -20,8 +22,11 @@ const Socials = () => {
       >
         <FaLinkedin size={30} />
       </a>
-      <a href="https://twitter.com/biru_abiy" className="hover:scale-110">
-        <FaXTwitter size={30} />
+      <a
+        href="https://www.upwork.com/freelancers/~01f99d578087773c1f"
+        className="hover:scale-110"
+      >
+        <SiUpwork size={30} />
       </a>
       <a href="https://github.com/Orion777-cmd" className="hover:scale-110">
         <FaGithub size={30} />

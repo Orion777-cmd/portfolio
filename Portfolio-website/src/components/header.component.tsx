@@ -8,7 +8,8 @@ const Header = () => {
       <h1 className="text-4xl bold">Abiy B. Bihonegn</h1>
       <div className=" w-2/5  flex items-center justify-around">
         <a
-          href=""
+          href="/resume/resume.pdf"
+          download="Abiy_B_Bihonegn_Resume.pdf"
           className={`text-bold text-2xl border-0 px-2 rounded shadow-sm hover:shadow-md hover:ring-2  ${
             darkMode ? "shadow-white" : "shadow-black"
           }`}

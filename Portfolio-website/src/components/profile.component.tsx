@@ -20,8 +20,9 @@ const Profile = () => {
         <div className="details flex flex-col items-center justify-center ">
           <h1 className="text-4xl text-center">Hi &#128075;, I am Abiy</h1>
           <h2 className="text-2xl text-center">
-            A Full-stack and Mobile app developer.
+            Software Engineer.
           </h2>
+          <h3 className="text-2xl text-center">Top Rated Freelancer on Upwork</h3>
         </div>
       </div>
       {/* <Hobbies /> */}
