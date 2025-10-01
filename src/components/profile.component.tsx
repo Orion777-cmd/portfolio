@@ -90,7 +90,7 @@ const Profile = () => {
             className="space-y-3"
           >
             <div
-              className={`flex items-center justify-center lg:justify-start gap-3 ${
+              className={`flex items-center justify-center gap-3 ${
                 isDark ? "text-gray-300" : "text-gray-600"
               }`}
             >
@@ -101,7 +101,7 @@ const Profile = () => {
             </div>
 
             <div
-              className={`flex items-center justify-center lg:justify-start gap-3 ${
+              className={`flex items-center justify-center gap-3 ${
                 isDark ? "text-gray-300" : "text-gray-600"
               }`}
             >

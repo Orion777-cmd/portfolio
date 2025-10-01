@@ -47,48 +47,7 @@ const Projects: React.FC = () => {
     trackSectionView("Projects");
   }, [fetchProjects]);
 
-  // Manual infinite scroll - User controls with mouse/keyboard/touch only
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer || projects.length < 2) return;
-
-    const cardWidth = 452; // 420px + 32px gap (adjusted for new card width)
-    const setWidth = cardWidth * projects.length;
-
-    // Set initial position to the middle set (to allow bidirectional scrolling)
-    const initTimer = setTimeout(() => {
-      scrollContainer.scrollTo({ left: setWidth, behavior: "auto" });
-    }, 100);
-
-    const handleScroll = () => {
-      const { scrollLeft } = scrollContainer;
-
-      // If scrolled past the end of the second set, jump to the equivalent position in the first set
-      if (scrollLeft >= setWidth * 2 - 100) {
-        const relativePosition = scrollLeft - setWidth * 2;
-        scrollContainer.scrollTo({
-          left: setWidth + relativePosition,
-          behavior: "auto",
-        });
-      }
-
-      // If scrolled before the start of the first set, jump to the equivalent position in the second set
-      if (scrollLeft <= 100) {
-        const relativePosition = scrollLeft;
-        scrollContainer.scrollTo({
-          left: setWidth + relativePosition,
-          behavior: "auto",
-        });
-      }
-    };
-
-    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      clearTimeout(initTimer);
-      scrollContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, [projects]);
+  // Simple horizontal scroll - no automatic repositioning
 
   const getMockProjects = (): Project[] => {
     return [
@@ -337,8 +296,8 @@ const Projects: React.FC = () => {
               msOverflowStyle: "none",
             }}
           >
-            {/* Render projects with duplicates for infinite scroll */}
-            {[...projects, ...projects, ...projects].map((project, index) => (
+            {/* Render projects */}
+            {projects.map((project, index) => (
               <motion.div
                 key={`${project.id}-${index}`}
                 variants={itemVariants}

@@ -57,10 +57,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         return JSON.parse(saved);
       } catch {
         // Fallback for old format
-        return { type: "default", variant: (saved as ThemeVariant) || "light" };
+        return { type: "default", variant: (saved as ThemeVariant) || "dark" };
       }
     }
-    return { type: "default", variant: "light" };
+    return { type: "default", variant: "dark" };
   });
 
   const isDark = theme.variant === "dark";
