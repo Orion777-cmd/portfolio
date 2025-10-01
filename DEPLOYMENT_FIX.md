@@ -12,9 +12,7 @@ Error: Node.js Version "18.x" is discontinued and must be upgraded. Please set N
 
 ### 1. Created `vercel.json` Configuration
 
-```json
-{
-  "buildCommand": "npm run build",
+```json  "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite"
 }
