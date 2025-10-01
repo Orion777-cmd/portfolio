@@ -6,9 +6,6 @@ This is a personal portfolio website built using the dynamic trio of React, Tail
 
 The live demo of this portfolio can be found at [https://ori0n.me](https://ori0n.me).
 
-## Credits
-
-- The design and structure of this portfolio were inspired by the work of [frectonz](https://github.com/frectonz). 
 ## Features
 
 - Responsive design for a seamless experience across devices.
