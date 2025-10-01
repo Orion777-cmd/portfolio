@@ -5,6 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import { trackThemeChange } from "../lib/analytics";
 
 export type ThemeVariant = "light" | "dark";
 export type ThemeType = "default" | "matrix" | "cyberpunk";
@@ -69,10 +70,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   const setThemeType = (type: ThemeType) => {
     setTheme({ ...theme, type });
+    trackThemeChange(type, theme.variant);
   };
 
   const setThemeVariant = (variant: ThemeVariant) => {
     setTheme({ ...theme, variant });
+    trackThemeChange(theme.type, variant);
   };
 
   useEffect(() => {

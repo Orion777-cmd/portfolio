@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 import { Project } from "../lib/supabase";
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaStar } from "react-icons/fa";
+import { trackProjectClick, trackSectionView } from "../lib/analytics";
 
 const Projects: React.FC = () => {
   const { isDark, isMatrix, isCyberpunk } = useTheme();
@@ -42,6 +43,8 @@ const Projects: React.FC = () => {
 
   useEffect(() => {
     fetchProjects();
+    // Track section view
+    trackSectionView("Projects");
   }, [fetchProjects]);
 
   // Manual infinite scroll - User controls with mouse/keyboard/touch only
@@ -620,6 +623,9 @@ const Projects: React.FC = () => {
                           href={project.github_url}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() =>
+                            trackProjectClick(project.title, "github")
+                          }
                           className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 backdrop-blur-sm border ${
                             isMatrix
                               ? "bg-green-500/10 text-green-400 border-green-500/40 hover:bg-green-500/20 hover:border-green-400 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]"
@@ -639,6 +645,9 @@ const Projects: React.FC = () => {
                           href={project.live_url}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() =>
+                            trackProjectClick(project.title, "live")
+                          }
                           className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 backdrop-blur-sm border ${
                             isMatrix
                               ? "bg-blue-500/20 text-blue-300 border-blue-500/50 hover:bg-blue-500/30 hover:border-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
