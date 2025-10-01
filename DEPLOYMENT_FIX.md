@@ -14,17 +14,13 @@ Error: Node.js Version "18.x" is discontinued and must be upgraded. Please set N
 
 ```json
 {
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs22.x"
-    }
-  },
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite",
-  "nodeVersion": "22.x"
+  "framework": "vite"
 }
 ```
+
+**Note**: For static Vite apps, we don't need to specify function runtimes since there are no serverless functions. The Node.js version is handled by the `package.json` engines field.
 
 ### 2. Updated `package.json`
 
