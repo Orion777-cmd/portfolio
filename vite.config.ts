@@ -21,4 +21,7 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom"],
   },
+  define: {
+    __DEV__: JSON.stringify(process.env.NODE_ENV === "development"),
+  },
 });
