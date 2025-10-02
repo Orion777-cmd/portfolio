@@ -32,6 +32,7 @@ export const initGA = () => {
 
   script.onload = () => {
     console.log("✅ Google Analytics script loaded successfully");
+    console.log("🔍 Script source:", script.src);
   };
 
   script.onerror = () => {
@@ -39,6 +40,13 @@ export const initGA = () => {
   };
 
   document.head.appendChild(script);
+
+  // Add a small delay to ensure script is fully loaded
+  setTimeout(() => {
+    console.log("🔍 Checking gtag availability after delay...");
+    console.log("🔍 window.gtag:", typeof window.gtag);
+    console.log("🔍 dataLayer length:", window.dataLayer?.length);
+  }, 1000);
 
   // Initialize dataLayer
   window.dataLayer = window.dataLayer || [];
@@ -51,6 +59,10 @@ export const initGA = () => {
   window.gtag("js", new Date());
   window.gtag("config", GA_TRACKING_ID, {
     page_path: window.location.pathname,
+    send_page_view: true,
+    anonymize_ip: true,
+    allow_google_signals: true,
+    allow_ad_personalization_signals: false,
   });
 
   console.log("✅ Google Analytics initialized successfully");
